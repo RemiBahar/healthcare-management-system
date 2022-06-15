@@ -1,0 +1,6 @@
+{
+    "java.project.sourcePaths": [
+        "olingo-spring-example",
+        "api/src/main/java/com/github/olingo/example/model"
+    ]
+}
