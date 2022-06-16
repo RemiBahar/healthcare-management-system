@@ -11,28 +11,28 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="contact_type")
-public class ContactType{
+@Table(name="address_type")
+public class AddressType{
   // Fields
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name="contact_type_id")
-  private Long ContactTypeId;
+  @Column(name="address_type_id")
+  private Long AddressTypeId;
 
   @Column(name="title")
   private String Title;
 
   // Joins
   @OneToMany(mappedBy = "Type") // mappedBy refers to field name in child table pointing to this table
-  private List<Contact> Contacts;
+  private List<Address> Addresses;
 
   // Getters and Setters
-  public void setContactTypeId(Long ContactTypeId){
-    this.ContactTypeId = ContactTypeId;
+  public void setAddressTypeId(Long AddressTypeId){
+    this.AddressTypeId = AddressTypeId;
   }
 
-  public Long getContactTypeId() {
-    return ContactTypeId;
+  public Long getAddressTypeId() {
+    return AddressTypeId;
   }
 
   public void setTitle(String Title){

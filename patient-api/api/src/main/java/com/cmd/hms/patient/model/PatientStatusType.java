@@ -5,10 +5,9 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.SQLDelete;
@@ -22,7 +21,7 @@ public class PatientStatusType {
 
     // Fields
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use Id sequencing unique for this table
     @Column(name="status_id")
     private Long StatusId;
 
@@ -32,12 +31,9 @@ public class PatientStatusType {
     @Column(name="is_deleted")
     private Boolean IsDeleted = false;
 
-    @OneToOne
-    @PrimaryKeyJoinColumn
-    private Patient patient;
-
     @OneToMany(mappedBy = "PatientStatus") // mappedBy refers to field name in child table pointing to this table
     private List<Patient> Patients;
+
 
     // Getters and setters
     public Long getStatusId() {

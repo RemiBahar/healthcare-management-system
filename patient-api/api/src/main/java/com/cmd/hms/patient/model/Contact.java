@@ -5,17 +5,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 
 @Entity
 public class Contact {
   //Fields
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY) // Use Id sequencing unique for this table
   @Column(name="contact_id")
   private Long Id;
 
@@ -31,14 +31,14 @@ public class Contact {
   @Column(name="email")
   private String Email;
   
-  @ManyToOne(fetch=FetchType.LAZY)
+  @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
   @JoinColumn(name="patient",insertable = false, updatable = false)
   private Patient Patient;
 
   @Column(name="patient")
   private Long PatientId;
 
-  @OneToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+  @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
   @JoinColumn(name="type",insertable = false, updatable = false)
   private ContactType Type;
 

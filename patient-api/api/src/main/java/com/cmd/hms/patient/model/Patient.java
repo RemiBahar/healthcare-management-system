@@ -6,10 +6,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import java.util.Date;
@@ -32,7 +33,7 @@ public class Patient {
     */
     // Fields
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Use Id sequencing unique for this table
     @Column(name="patient_id")
     private Long PatientId;
 
@@ -45,24 +46,26 @@ public class Patient {
     @Column(name="middle_name")
     private String MiddleName;
 
+    // Joined fields
+
     @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
     private List<Contact> Contacts;
 
-    @OneToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="patient_status",insertable = false, updatable = false)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+    @JoinColumn(name="type",insertable = false, updatable = false)
     private PatientStatusType PatientStatus;
 
     @Column(name="patient_status")
     private Long PatientStatusId;
 
-    @OneToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
     @JoinColumn(name="gender",insertable = false, updatable = false)
     private Gender Gender;
 
     @Column(name="gender")
     private Long GenderId;
 
-    @OneToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
     @JoinColumn(name="title",insertable = false, updatable = false)
     private Title Title;
 
@@ -71,6 +74,9 @@ public class Patient {
 
     @Column(name="date_of_birth")
     private Date DateOfBirth;
+
+    @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
+    private List<Address> Addresses;
 
     // Getters and setters
     public Long getPatientId() {
@@ -156,6 +162,5 @@ public class Patient {
     public void setTitleId(Long TitleId) {
     this.TitleId = TitleId;
     }
-
     
 }
