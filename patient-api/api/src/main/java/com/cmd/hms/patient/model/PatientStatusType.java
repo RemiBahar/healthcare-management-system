@@ -16,7 +16,7 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name="patient_status")
 @SQLDelete(sql = "UPDATE patient_status SET is_deleted = true WHERE status_id=?")
-@Where(clause = "is_deleted is false")
+@Where(clause = "is_deleted = false")
 public class PatientStatusType {
 
     // Fields

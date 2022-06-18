@@ -1,0 +1,18 @@
+2022-06-18 15:47:59 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT PATIENTSTA0_.STATUS_ID AS STATUS_I1_7_, PATIENTSTA0_.IS_DELETED AS IS_DELET2_7_, PATIENTSTA0_.STATUS AS STATUS3_7_ FROM PATIENT_STATUS PATIENTSTA0_ WHERE ( PATIENTSTA0_.IS_DELETED IS 0[*])"; expected "NOT, OF, JSON, NULL, DISTINCT, TRUE, FALSE, UNKNOWN"; SQL statement:
+select patientsta0_.status_id as status_i1_7_, patientsta0_.is_deleted as is_delet2_7_, patientsta0_.status as status3_7_ from patient_status patientsta0_ where ( patientsta0_.is_deleted is 0) [42001-200]
+2022-06-18 15:48:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT PATIENTSTA0_.STATUS_ID AS STATUS_I1_7_, PATIENTSTA0_.IS_DELETED AS IS_DELET2_7_, PATIENTSTA0_.STATUS AS STATUS3_7_ FROM PATIENT_STATUS PATIENTSTA0_ WHERE ( PATIENTSTA0_.IS_DELETED IS 0[*])"; expected "NOT, OF, JSON, NULL, DISTINCT, TRUE, FALSE, UNKNOWN"; SQL statement:
+select patientsta0_.status_id as status_i1_7_, patientsta0_.is_deleted as is_delet2_7_, patientsta0_.status as status3_7_ from patient_status patientsta0_ where ( patientsta0_.is_deleted is 0) [42001-200]
+2022-06-18 15:48:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT PATIENTSTA0_.STATUS_ID AS STATUS_I1_7_, PATIENTSTA0_.IS_DELETED AS IS_DELET2_7_, PATIENTSTA0_.STATUS AS STATUS3_7_ FROM PATIENT_STATUS PATIENTSTA0_ WHERE ( PATIENTSTA0_.IS_DELETED IS 0[*]) AND PATIENTSTA0_.STATUS_ID=?"; expected "NOT, OF, JSON, NULL, DISTINCT, TRUE, FALSE, UNKNOWN"; SQL statement:
+select patientsta0_.status_id as status_i1_7_, patientsta0_.is_deleted as is_delet2_7_, patientsta0_.status as status3_7_ from patient_status patientsta0_ where ( patientsta0_.is_deleted is 0) and patientsta0_.status_id=? [42001-200]
+2022-06-18 15:50:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT PATIENTSTA0_.STATUS_ID AS STATUS_I1_7_, PATIENTSTA0_.IS_DELETED AS IS_DELET2_7_, PATIENTSTA0_.STATUS AS STATUS3_7_ FROM PATIENT_STATUS PATIENTSTA0_ WHERE ( PATIENTSTA0_.IS_DELETED IS 0[*])"; expected "NOT, OF, JSON, NULL, DISTINCT, TRUE, FALSE, UNKNOWN"; SQL statement:
+select patientsta0_.status_id as status_i1_7_, patientsta0_.is_deleted as is_delet2_7_, patientsta0_.status as status3_7_ from patient_status patientsta0_ where ( patientsta0_.is_deleted is 0) [42001-200]
+2022-06-18 15:50:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT PATIENTSTA0_.STATUS_ID AS STATUS_I1_7_, PATIENTSTA0_.IS_DELETED AS IS_DELET2_7_, PATIENTSTA0_.STATUS AS STATUS3_7_ FROM PATIENT_STATUS PATIENTSTA0_ WHERE ( PATIENTSTA0_.IS_DELETED IS !=[*] 0)"; expected "NOT, OF, JSON, NULL, DISTINCT, TRUE, FALSE, UNKNOWN"; SQL statement:
+select patientsta0_.status_id as status_i1_7_, patientsta0_.is_deleted as is_delet2_7_, patientsta0_.status as status3_7_ from patient_status patientsta0_ where ( patientsta0_.is_deleted is != 0) [42001-200]
+2022-06-18 15:51:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT PATIENTSTA0_.STATUS_ID AS STATUS_I1_7_, PATIENTSTA0_.IS_DELETED AS IS_DELET2_7_, PATIENTSTA0_.STATUS AS STATUS3_7_ FROM PATIENT_STATUS PATIENTSTA0_ WHERE ( PATIENTSTA0_.IS_DELETED IS !=[*] 0)"; expected "NOT, OF, JSON, NULL, DISTINCT, TRUE, FALSE, UNKNOWN"; SQL statement:
+select patientsta0_.status_id as status_i1_7_, patientsta0_.is_deleted as is_delet2_7_, patientsta0_.status as status3_7_ from patient_status patientsta0_ where ( patientsta0_.is_deleted is != 0) [42001-200]
