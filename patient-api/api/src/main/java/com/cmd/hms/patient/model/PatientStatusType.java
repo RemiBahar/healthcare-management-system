@@ -30,10 +30,10 @@ public class PatientStatusType {
 
     @Column(name="is_deleted")
     private Boolean IsDeleted = false;
-
+    
     @OneToMany(mappedBy = "PatientStatus") // mappedBy refers to field name in child table pointing to this table
     private List<Patient> Patients;
-
+    
 
     // Getters and setters
     public Long getStatusId() {

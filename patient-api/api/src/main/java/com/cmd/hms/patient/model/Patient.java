@@ -13,10 +13,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import java.util.Date;
 
 @Entity
 @Table(name="patient")
+@SQLDelete(sql = "UPDATE patient SET patient_status = 3 WHERE patient_id=?")
+@Where(clause = "patient_status != 3")
 public class Patient {
     /** Represents a patient. Is the main class in this API
      * @param PatientId Primary key of patient
@@ -46,13 +51,15 @@ public class Patient {
     @Column(name="middle_name")
     private String MiddleName;
 
+   
+
     // Joined fields
 
     @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
     private List<Contact> Contacts;
 
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
-    @JoinColumn(name="type",insertable = false, updatable = false)
+    @JoinColumn(name="patient_status",insertable = false, updatable = false)
     private PatientStatusType PatientStatus;
 
     @Column(name="patient_status")
@@ -77,6 +84,18 @@ public class Patient {
 
     @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
     private List<Address> Addresses;
+
+    //Constructor
+
+    public Patient(Long _PatientId, String _FirstName, String _MiddleName, String _LastName, Long _GenderId, Long _TitleId, Date _DateOfBirth) {
+        PatientId = _PatientId;
+        FirstName = _FirstName;
+        MiddleName = _MiddleName;
+        LastName = _LastName;
+        GenderId = _GenderId;
+        TitleId = _TitleId;
+        DateOfBirth = _DateOfBirth;
+    }
 
     // Getters and setters
     public Long getPatientId() {

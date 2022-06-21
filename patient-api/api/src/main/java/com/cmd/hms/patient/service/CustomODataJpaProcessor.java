@@ -13,6 +13,7 @@ import org.apache.olingo.odata2.jpa.processor.api.exception.ODataJPARuntimeExcep
 import org.jvnet.hk2.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.InputStream;
 import java.util.List;
 import javax.validation.Valid;
@@ -25,7 +26,6 @@ public class CustomODataJpaProcessor extends ODataJPADefaultProcessor {
         super(oDataJPAContext);
 
     }
-
     @Override
     public ODataResponse readEntitySet(@Valid final GetEntitySetUriInfo uriParserResultView, final String contentType) throws ODataJPAModelException, ODataJPARuntimeException, EdmException {
         logger.info("READ: Entity Set {} called", uriParserResultView.getTargetEntitySet().getName());
@@ -107,5 +107,7 @@ public class CustomODataJpaProcessor extends ODataJPADefaultProcessor {
         }
         return oDataResponse;
     }
+
+
   
 }
