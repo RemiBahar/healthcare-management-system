@@ -1,9 +1,0 @@
-com/cmd/hms/patient/test/ContactTypeTest.class
-com/cmd/hms/patient/test/HttpRequestTest.class
-com/cmd/hms/patient/test/ContactTest.class
-com/cmd/hms/patient/test/AddressTest.class
-com/cmd/hms/patient/test/PatientStatusTypeTest.class
-com/cmd/hms/patient/test/TitleTest.class
-com/cmd/hms/patient/test/PatientTest.class
-com/cmd/hms/patient/test/GenderTest.class
-com/cmd/hms/patient/test/CountryTest.class
