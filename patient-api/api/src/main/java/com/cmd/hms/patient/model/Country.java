@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="country")
