@@ -85,18 +85,6 @@ public class Patient {
     @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
     private List<Address> Addresses;
 
-    //Constructor
-
-    public Patient(Long _PatientId, String _FirstName, String _MiddleName, String _LastName, Long _GenderId, Long _TitleId, Date _DateOfBirth) {
-        PatientId = _PatientId;
-        FirstName = _FirstName;
-        MiddleName = _MiddleName;
-        LastName = _LastName;
-        GenderId = _GenderId;
-        TitleId = _TitleId;
-        DateOfBirth = _DateOfBirth;
-    }
-
     // Getters and setters
     public Long getPatientId() {
         return PatientId;

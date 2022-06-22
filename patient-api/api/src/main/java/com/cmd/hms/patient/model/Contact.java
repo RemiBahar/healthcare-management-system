@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotBlank;
 
 
 @Entity
@@ -29,6 +30,7 @@ public class Contact {
   private String Mobile;
 
   @Column(name="email")
+  @NotBlank
   private String Email;
   
   @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
