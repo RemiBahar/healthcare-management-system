@@ -1,2 +1,3 @@
-com/cmd/hms/patient/test/JUnitHelloWorld.class
+com/cmd/hms/patient/test/TestingWebApplicationTests.class
+com/cmd/hms/patient/test/HttpRequestTest.class
 com/cmd/hms/patient/test/PatientTest.class
