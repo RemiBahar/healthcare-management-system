@@ -147,6 +147,11 @@
             <artifactId>olingo-odata2-jpa-processor-core</artifactId>
             <version>${olingoVersion}</version>
         </dependency>
+         <dependency>
+            <groupId>org.apache.olingo</groupId>
+            <artifactId>odata-client-core</artifactId>
+            <version>4.9.0</version>
+        </dependency>
 
         <!-- Jakarta -->
         <!-- https://mvnrepository.com/artifact/javax/javaee-api -->
@@ -245,11 +250,10 @@
             <version>42.4.0</version>
         </dependency>
         <!-- H2 -->
-        <dependency>
+       <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.1.214</version>
-            <scope>test</scope>
+            <scope>runtime</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
         <dependency>
