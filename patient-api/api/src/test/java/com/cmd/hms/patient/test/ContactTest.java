@@ -1,12 +1,14 @@
 package com.cmd.hms.patient.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import com.cmd.hms.patient.model.Contact;
  
-public class ContactTest {
+public class ContactTest extends HttpRequestTest{
  
 
     // Instanstiate object
@@ -77,6 +79,37 @@ public class ContactTest {
         assertTrue(contact.getPriority().equals(Priority), "Priority");
     }
 
+    @Test
+	public void addContact() throws Exception {
+		// Patient not finish being added unless you call it again here
+		// Add object 
+		String Name = "John Smith Wick";
+		String Telephone = "01628222333";
+		String Mobile = "07722244555";
+		String Email = "test@hotmail.com";
+		String Priority = "1";
+		String PatientId = "1";
+		String TypeId = "1";
+
+		String data = String.format(
+			"{\n  \"Name\": \"%s\", \"Telephone\": \"%s\" \n, \"Mobile\": \"%s\", \"Email\": \"%s\", \"Priority\": \"%s\", \"PatientId\": \"%s\", \"TypeId\": \"%s\"}"
+			,Name, Telephone, Mobile, Email, Priority, PatientId, TypeId);
+		
+		String url = BaseUrl + "/Contacts";
+		String getUrl = postObject(data, url);
+
+		String getResponse = restTemplate.getForObject(getUrl,String.class);
+		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
+
+		// Compare added object with request
+		assertEquals(Name, getJson.get("Name"));
+		assertEquals(Telephone, getJson.get("Telephone"));
+		assertEquals(Mobile, getJson.get("Mobile"));
+		assertEquals(Email, getJson.get("Email"));
+		assertEquals(Priority, getJson.get("Priority"));
+		assertEquals(PatientId, getJson.get("PatientId"));
+		assertEquals(TypeId, getJson.get("TypeId"));
+	}
     
 
 }

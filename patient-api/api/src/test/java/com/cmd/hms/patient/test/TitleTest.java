@@ -1,12 +1,14 @@
 package com.cmd.hms.patient.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import com.cmd.hms.patient.model.Title;
 
-public class TitleTest {
+public class TitleTest extends HttpRequestTest{
 
      // Instanstiate object
      Title title = new Title();
@@ -28,4 +30,20 @@ public class TitleTest {
          assertTrue(title.getTitle().equals(Title), "Title");
      }
     
+    @Test
+	public void addTitle() throws Exception {
+		// Add title 
+		String Title = "Title";
+		String data = String.format("{\n  \"Title\": \"%s\" \n}", Title);
+		String url = BaseUrl + "/Titles";
+
+		String getUrl = postObject(data, url);
+		
+		// Get added title
+		String getResponse = restTemplate.getForObject(getUrl,String.class);
+		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
+
+		// Compare added title with request
+		assertEquals(Title, getJson.get("Title"));
+	}
 }

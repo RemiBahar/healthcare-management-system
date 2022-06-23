@@ -4,12 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONObject;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import com.cmd.hms.patient.model.PatientStatusType;
 
-public class PatientStatusTypeTest{
+public class PatientStatusTypeTest extends HttpRequestTest{
 
      // Instanstiate object
      PatientStatusType PatientStatusType = new PatientStatusType();
@@ -39,6 +38,21 @@ public class PatientStatusTypeTest{
          assertTrue(PatientStatusType.getIsDeleted().equals(IsDeleted), "IsDeleted");
      }
 
+
+    @Test
+	public void addPatientStatusType() throws Exception {
+		// Add object 
+		String Status = "TestStatus";
+		
+		String getUrl = postPatientStatusType(Status);
+
+		// Get added object
+		String getResponse = restTemplate.getForObject(getUrl,String.class);
+		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
+
+		// Compare added object with request
+		assertEquals(Status, getJson.get("Status"));	
+	}
 
     
     
