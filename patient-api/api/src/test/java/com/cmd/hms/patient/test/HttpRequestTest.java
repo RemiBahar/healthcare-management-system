@@ -1,16 +1,7 @@
 package com.cmd.hms.patient.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-
-import org.apache.olingo.client.api.ODataClient;
-import org.apache.olingo.client.core.ODataClientFactory;
+import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +13,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-
-import com.cmd.hms.patient.model.Gender;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -42,41 +27,32 @@ public class HttpRequestTest {
 	@Autowired
 	private TestRestTemplate restTemplate;
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
-
 	@Test
 	public void greetingShouldReturnDefaultMessage() throws Exception {
 		assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/odata/$metadata",
 				String.class)).contains("Schema");
 	}
 	
+	
+	
 	@Test
 	public void addGender() throws Exception {
-		URL url = new URL("http://localhost:" + port + "/odata/Genders");
-		HttpURLConnection http = (HttpURLConnection)url.openConnection();
-		http.setRequestMethod("POST");
-		http.setDoOutput(true);
-		http.setRequestProperty("Accept", "application/json");
-		http.setRequestProperty("Content-Type", "application/json");
-
+		// Add gender 19.802, 18.817, 18.597
 		String data = "{\n  \"Title\": \"Male\" \n}";
+		String url ="http://localhost:" + port + "/odata/Genders";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> request = new HttpEntity<String>(data, headers);
+		restTemplate.postForObject(url, request, String.class);
 
-		byte[] out = data.getBytes(StandardCharsets.UTF_8);
+		// Get added Gender
+		String getResponse = restTemplate.getForObject("http://localhost:" + port + "/odata/Genders(1)",String.class);
+		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
 
-		OutputStream stream = http.getOutputStream();
-		stream.write(out);
-
-		assertEquals(201, http.getResponseCode());
-		http.disconnect();
-
+		// Compare added gender with request
+		assertEquals("1", getJson.get("GenderId"));
+		assertEquals("Male", getJson.get("Title"));
+		assertEquals(false, getJson.get("IsDeleted"));
 	}
 	
-
-	@Test
-	public void testPatients() throws Exception {
-		String response = (this.restTemplate.getForObject("http://localhost:" + port + "/odata/Genders",
-		String.class));
-		System.out.print(response);
-		assertTrue("test".equals("test"), "TitleId");
-	}
 }
