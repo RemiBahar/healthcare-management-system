@@ -5,10 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.json.JSONObject;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -26,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
     "server.port=8079"
   })
 @TestPropertySource(locations="classpath:application-test.properties") // Uses postgres database in memory deleted after testing
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // Needed or test order doesn't match method order. Slows down test execution
 public class HttpRequestTest{
 
 	@Autowired
@@ -44,7 +40,6 @@ public class HttpRequestTest{
 	}
 
     @Test
-	@Order(1)
 	public void addTitle() throws Exception {
 		// Add title 
 		String Title = "Title";
@@ -71,7 +66,6 @@ public class HttpRequestTest{
    }
 
     @Test
-	@Order(1)
 	public void addPatientStatusType() throws Exception {
 		// Add object 
 		String Status = "TestStatus";
@@ -89,7 +83,6 @@ public class HttpRequestTest{
 
 	
 	@Test
-	@Order(1)
 	public void greetingShouldReturnDefaultMessage() throws Exception {
 		assertThat(this.restTemplate.getForObject(BaseUrl + "/$metadata",
 				String.class)).contains("Schema");
@@ -102,7 +95,6 @@ public class HttpRequestTest{
 	
 
 	@Test
-	@Order(2)
 	public void addPatient() throws Exception {
 		// Patient status not finish being added unless you call it again here		
 		
@@ -144,7 +136,6 @@ public class HttpRequestTest{
 	
 
 	@Test
-	@Order(1)
 	public void addAddressType() throws Exception {
 		// Add object 
 		String Title = "Home";
@@ -167,7 +158,6 @@ public class HttpRequestTest{
 
 	
 	@Test
-	@Order(3)
 	public void addAddress() throws Exception {
 		// Patient not finish being added unless you call it again here
 		//this.addPatient();
@@ -195,7 +185,6 @@ public class HttpRequestTest{
 		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
 
 		// Compare added object with request
-		assertEquals("1", getJson.get("AddressId"));
 		assertEquals(Street, getJson.get("Street"));
 		assertEquals(ZipCode, getJson.get("ZipCode"));
 		assertEquals(City, getJson.get("City"));
@@ -208,7 +197,6 @@ public class HttpRequestTest{
 	}
 
 	@Test
-	@Order(3)
 	public void addContact() throws Exception {
 		// Patient not finish being added unless you call it again here
 		// Add object 
@@ -231,7 +219,6 @@ public class HttpRequestTest{
 		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
 
 		// Compare added object with request
-		assertEquals("1", getJson.get("Id"));
 		assertEquals(Name, getJson.get("Name"));
 		assertEquals(Telephone, getJson.get("Telephone"));
 		assertEquals(Mobile, getJson.get("Mobile"));
@@ -242,10 +229,7 @@ public class HttpRequestTest{
 	}
 
 	@Test
-	@Order(4)
 	public void invalidPutPatient() throws Exception {
-
-	
 		String before = restTemplate.getForObject(BaseUrl + "/Patients(1)",String.class);
 		JSONObject beforeJson = new JSONObject(before).getJSONObject("d");
 		
@@ -284,7 +268,6 @@ public class HttpRequestTest{
 	}
 
 	@Test
-	@Order(5)
 	public void patchPatient() throws Exception {
 	
 	
@@ -325,7 +308,6 @@ public class HttpRequestTest{
 
 
 	@Test
-	@Order(6)
 	public void putPatient() throws Exception {
 	
 		// Add object 
@@ -365,23 +347,15 @@ public class HttpRequestTest{
 
 
     @Test
-	@Order(7)
 	public void deletePatient() throws Exception {
-
-		// Add object 
-		postPatientStatusType("Pre-checked");
-		postPatientStatusType("Checked");
-		postPatientStatusType("In-treatment");
-		postPatientStatusType("For-deletion");
-
 		// Delete patient
-		String url = BaseUrl + "/Patients(1)";
+		String url = BaseUrl + "/Patients(2)";
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		restTemplate.delete(url, String.class);
 
 		//Check if patient deleted
-		String getResponse = restTemplate.getForObject(BaseUrl + "/Patients(1)",String.class);
+		String getResponse = restTemplate.getForObject(BaseUrl + "/Patients(2)",String.class);
 		JSONObject getJson = new JSONObject(getResponse);
 
 		assertTrue(getJson.has("error"));
@@ -390,7 +364,6 @@ public class HttpRequestTest{
     }
 
 	@Test
-	@Order(1)
 	public void addGender() throws Exception {
 		// Add gender 
 		String Title = "Male";
@@ -411,7 +384,6 @@ public class HttpRequestTest{
 	}
 
 	@Test
-	@Order(1)
 	public void addCountry() throws Exception {
 		// Add object 
 		String CountryCode = "DE";
@@ -432,7 +404,6 @@ public class HttpRequestTest{
 	}
 
 	@Test
-	@Order(1)
 	public void addContactType() throws Exception {
 		// Add contact type 
 		String Title = "Family";

@@ -27,7 +27,7 @@ public class Gender {
     @Column(name="title")
     private String Title;
 
-    @Column(name="is_deleted")
+    @Column(name="is_deleted", columnDefinition = "boolean default false")
     private Boolean IsDeleted = false;
 
     // Getters and setters
