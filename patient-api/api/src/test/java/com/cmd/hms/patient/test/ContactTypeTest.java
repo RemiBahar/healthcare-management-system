@@ -1,12 +1,18 @@
 package com.cmd.hms.patient.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.json.JSONObject;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import com.cmd.hms.patient.model.ContactType;
 
-public class ContactTypeTest {
+public class ContactTypeTest{
 
      // Instanstiate object
      ContactType contactType = new ContactType();
@@ -27,5 +33,7 @@ public class ContactTypeTest {
              
          assertTrue(contactType.getTitle().equals(Title), "Title");
      }
+
+   
     
 }

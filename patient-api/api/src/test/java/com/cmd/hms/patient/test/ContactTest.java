@@ -77,4 +77,6 @@ public class ContactTest {
         assertTrue(contact.getPriority().equals(Priority), "Priority");
     }
 
+    
+
 }

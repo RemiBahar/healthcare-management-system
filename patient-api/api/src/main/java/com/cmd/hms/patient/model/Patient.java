@@ -58,7 +58,7 @@ public class Patient {
     @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
     private List<Contact> Contacts;
 
-    @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.EAGER)
     @JoinColumn(name="patient_status",insertable = false, updatable = false)
     private PatientStatusType PatientStatus;
 

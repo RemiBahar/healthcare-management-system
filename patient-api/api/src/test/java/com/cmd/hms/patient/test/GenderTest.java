@@ -1,12 +1,18 @@
 package com.cmd.hms.patient.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.json.JSONObject;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import com.cmd.hms.patient.model.Gender;
 
-public class GenderTest {
+public class GenderTest{
 
      // Instanstiate object
      Gender gender = new Gender();
@@ -35,5 +41,7 @@ public class GenderTest {
              
          assertTrue(gender.getIsDeleted().equals(IsDeleted), "IsDeleted");
      }
+
+   
     
 }

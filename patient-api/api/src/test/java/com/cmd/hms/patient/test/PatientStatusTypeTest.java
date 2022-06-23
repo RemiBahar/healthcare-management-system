@@ -1,12 +1,15 @@
 package com.cmd.hms.patient.test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.json.JSONObject;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import com.cmd.hms.patient.model.PatientStatusType;
 
-public class PatientStatusTypeTest {
+public class PatientStatusTypeTest{
 
      // Instanstiate object
      PatientStatusType PatientStatusType = new PatientStatusType();
@@ -35,5 +38,8 @@ public class PatientStatusTypeTest {
              
          assertTrue(PatientStatusType.getIsDeleted().equals(IsDeleted), "IsDeleted");
      }
+
+
+    
     
 }

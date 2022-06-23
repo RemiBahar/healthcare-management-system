@@ -28,7 +28,7 @@ public class PatientStatusType {
     @Column(name="status")
     private String Status;
 
-    @Column(name="is_deleted")
+    @Column(name="is_deleted", columnDefinition = "boolean default false")
     private Boolean IsDeleted = false;
     
     @OneToMany(mappedBy = "PatientStatus") // mappedBy refers to field name in child table pointing to this table
