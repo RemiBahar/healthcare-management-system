@@ -91,6 +91,7 @@ public class CustomODataJpaProcessor extends ODataJPADefaultProcessor {
         return response;
     }
 
+
    
     @Override
     public ODataResponse deleteEntity(DeleteUriInfo uriParserResultView, String contentType) throws ODataException {
