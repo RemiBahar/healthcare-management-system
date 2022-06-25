@@ -1,12 +1,7 @@
 package com.cmd.hms.patient.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-
-
 import com.cmd.hms.patient.model.Country;
 
 public class CountryTest extends HttpRequestTest{
@@ -33,22 +28,30 @@ public class CountryTest extends HttpRequestTest{
 
      @Test
      public void addCountry() throws Exception {
-         // Add object 
-         String CountryCode = "DE";
-         String Name = "Germany";
- 
-         String data = String.format("{\n  \"CountryCode\": \"%s\",  \"Name\": \"%s\" \n}", CountryCode, Name);
-         String url = BaseUrl + "/Countrys";
-         
-         String getUrl = postObject(data, url);
-     
-         // Get added object
-         String getResponse = restTemplate.getForObject(getUrl,String.class);
-         JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
- 
-         // Compare added object with request
-         assertEquals(CountryCode, getJson.get("CountryCode"));
-         assertEquals(Name, getJson.get("Name"));
+         String requestBody = "{\n  \"CountryCode\": \"DE\",  \"Name\": \"Germany\" \n}";
+         String endpoint = "/Countrys";
+         addObject(requestBody, endpoint);
+     }
+
+
+     @Test
+     public void updateCountry() throws Exception {
+         String requestBody = "{\"Name\": \"Great Britain\" \n}";
+         String endpoint = "/Countrys('UK')";
+         updateObject(requestBody, endpoint);
+     }
+
+     @Test
+     public void invalidUpdateCountry() throws Exception {
+         String requestBody = "{\n  \"CountryCode\": \"GB\",\"Name\": \"Great Britain\" \n}"; // Shoudn't be able to set PK in update
+         String endpoint = "/Countrys('UK')";
+         invalidUpdateObject(requestBody, endpoint);
+     }
+
+     @Test
+     public void deleteCountry() throws Exception {
+         String endpoint = "/Countrys('US')";
+         deleteObject(endpoint);
      }
  
     

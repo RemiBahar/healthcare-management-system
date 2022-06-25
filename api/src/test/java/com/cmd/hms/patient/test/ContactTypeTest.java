@@ -1,9 +1,6 @@
 package com.cmd.hms.patient.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 import com.cmd.hms.patient.model.ContactType;
@@ -32,20 +29,23 @@ public class ContactTypeTest extends HttpRequestTest{
 
     @Test
 	public void addContactType() throws Exception {
-		// Add contact type 
-		String Title = "Family";
-		String data = String.format("{\n  \"Title\": \"%s\" \n}", Title);
-		String url = BaseUrl + "/ContactTypes";
+		String requestBody = "{\n  \"Title\": \"Something\" \n}";
+        String endpoint = "/ContactTypes";
+        addObject(requestBody, endpoint);
+    }
 
-		String getUrl = postObject(data, url);
-	
-		// Get added contact type
-		String getResponse = restTemplate.getForObject(getUrl,String.class);
-		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
+    @Test
+	public void updateContactType() throws Exception {
+		String requestBody = "{\n  \"Title\": \"Different\" \n}";
+        String endpoint = "/ContactTypes(1)";
 
-		// Compare added contact type with request
-		assertEquals(Title, getJson.get("Title"));
+        updateObject(requestBody, endpoint);
 	}
+
+    @Test
+	public void deleteAddress() throws Exception {
+        deleteObject("/ContactTypes(2)");
+    }
    
     
 }

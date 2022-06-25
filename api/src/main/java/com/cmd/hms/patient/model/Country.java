@@ -17,7 +17,7 @@ public class Country{
   @Id
   @Column(name="country_code", length = 2)
   @Size(min=2, max=2)
-  private String CountryCode; // 3-letter country code used instead of auto-generated id
+  private String CountryCode; // 2-letter country code used instead of auto-generated id
 
   @Column(name="name")
   private String Name;

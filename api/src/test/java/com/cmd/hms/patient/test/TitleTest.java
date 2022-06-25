@@ -30,20 +30,31 @@ public class TitleTest extends HttpRequestTest{
          assertTrue(title.getTitle().equals(Title), "Title");
      }
     
-    @Test
-	public void addTitle() throws Exception {
-		// Add title 
-		String Title = "Title";
-		String data = String.format("{\n  \"Title\": \"%s\" \n}", Title);
-		String url = BaseUrl + "/Titles";
-
-		String getUrl = postObject(data, url);
-		
-		// Get added title
-		String getResponse = restTemplate.getForObject(getUrl,String.class);
-		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
-
-		// Compare added title with request
-		assertEquals(Title, getJson.get("Title"));
-	}
+     // Integration tests
+     @Test
+     public void addTitle() throws Exception {
+         String requestBody = "{\n  \"Title\": \"Add Title\" \n}";
+         String endpoint = "/Titles";
+         addObject(requestBody, endpoint);
+     }
+ 
+     @Test
+     public void updateTitle() throws Exception {
+         String requestBody = "{\n  \"Title\": \"Update Title\" \n}";
+         String endpoint = "/Titles(1)";
+         updateObject(requestBody, endpoint);
+     }
+ 
+     @Test
+     public void invalidUpdateGender() throws Exception {
+         String requestBody = "{\n \"TitleId\": \"10\", \"Title\": \"Invalid title\" \n}";
+         String endpoint = "/Titles(1)";
+         invalidUpdateObject(requestBody, endpoint);
+     }
+ 
+     @Test
+     public void deleteTitle() throws Exception {
+         String endpoint = "/Titles(2)";
+         deleteObject(endpoint);
+     }
 }

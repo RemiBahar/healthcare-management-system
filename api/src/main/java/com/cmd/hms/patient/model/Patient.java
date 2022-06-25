@@ -21,7 +21,7 @@ import java.util.Date;
 @Entity
 @Table(name="patient")
 @SQLDelete(sql = "UPDATE patient SET patient_status = 3 WHERE patient_id=?")
-@Where(clause = "patient_status != 3")
+@Where(clause = "patient_status != 3 OR patient_status is null")
 public class Patient {
     /** Represents a patient. Is the main class in this API
      * @param PatientId Primary key of patient

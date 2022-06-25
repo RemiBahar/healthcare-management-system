@@ -1,26 +1,26 @@
 package com.cmd.hms.patient.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
 
 public class AddressTypeTest extends HttpRequestTest{
-    @Test
+	@Test
 	public void addAddressType() throws Exception {
-		// Add object 
-		String Title = "Home";
-		String data = String.format("{\n  \"Title\": \"%s\" \n}", Title);
-		String url = BaseUrl + "/AddressTypes";
-	
-		String getUrl = postObject(data, url);
-		
-		// Get added object
-		String getResponse = restTemplate.getForObject(getUrl,String.class);
-		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
+		String requestBody = "{\n  \"Title\": \"Test\" \n}";
+        String endpoint = "/AddressTypes";
+        addObject(requestBody, endpoint);
+    }
 
-		// Compare added object with request
-		assertEquals(Title, getJson.get("Title"));	
+    @Test
+	public void updateAddressType() throws Exception {
+		String requestBody = "{\n  \"Title\": \"Something\" \n}";
+        String endpoint = "/AddressTypes(1)";
+
+        updateObject(requestBody, endpoint);
 	}
+
+    @Test
+	public void deleteAddress() throws Exception {
+        deleteObject("/AddressTypes(2)");
+    }
     
 }

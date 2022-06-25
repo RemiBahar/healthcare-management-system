@@ -103,3 +103,13 @@ Currently we have specified the many to one relation between patient and gender.
 @OneToMany(mappedBy = "Gender") // mappedBy refers to field name in child table pointing to this table
 private List<Patient> Patients;
 ```
+
+## HTTP Operations
+
+PUT:
+
+By default, olingo uses `UpdateType.PATCH` when updating an entity. So even if a PUT request is made, fields not in the request body won't be set to null.
+
+To set other fields to null there are two options.
+1. Include null in the request body, e.g. `{Description: null}`
+2. When developing a client use `UpdateType.REPLACE` for `getEntityUpdateRequest()`. See https://olingo.apache.org/doc/odata4/tutorials/od4_basic_client_read.html 

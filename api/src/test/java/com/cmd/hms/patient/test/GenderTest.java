@@ -1,11 +1,7 @@
 package com.cmd.hms.patient.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-
 import com.cmd.hms.patient.model.Gender;
 
 public class GenderTest extends HttpRequestTest{
@@ -30,34 +26,32 @@ public class GenderTest extends HttpRequestTest{
          assertTrue(gender.getTitle().equals(Title), "Title");
      }
 
-     @Test
-     public void IsDeletedTest(){
-         Boolean IsDeleted = false;
-         gender.setIsDeleted(false);
-             
-         assertTrue(gender.getIsDeleted().equals(IsDeleted), "IsDeleted");
-     }
-
+     // Integration tests
     @Test
 	public void addGender() throws Exception {
-		// Add gender 
-		String Title = "Male";
-		String data = String.format("{\n  \"Title\": \"%s\" \n}", Title);
-		String url = BaseUrl + "/Genders";
-		
-		String getUrl = postObject(data, url);
-
-		// Get added Gender
-		String getResponse = restTemplate.getForObject(getUrl,String.class);
-		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
-
-		// Compare added gender with request
-		assertEquals(Title, getJson.get("Title"));
-		assertEquals(false, getJson.get("IsDeleted"));
-
-		
+		String requestBody = "{\n  \"Title\": \"Gender\" \n}";
+		String endpoint = "/Genders";
+		addObject(requestBody, endpoint);
 	}
 
-   
+    @Test
+	public void updateGender() throws Exception {
+		String requestBody = "{\n  \"Title\": \"New Gender\" \n}";
+		String endpoint = "/Genders(1)";
+		updateObject(requestBody, endpoint);
+	}
+
+    @Test
+	public void invalidUpdateGender() throws Exception {
+		String requestBody = "{\n \"GenderId\": \"10\", \"Title\": \"Something\" \n}";
+		String endpoint = "/Genders(1)";
+		invalidUpdateObject(requestBody, endpoint);
+	}
+
+    @Test
+	public void deleteGender() throws Exception {
+		String endpoint = "/Genders(2)";
+		deleteObject(endpoint);
+	}
     
 }

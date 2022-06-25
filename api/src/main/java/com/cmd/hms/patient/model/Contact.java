@@ -31,7 +31,6 @@ public class Contact {
   private String Mobile;
 
   @Column(name="email")
-  @NotBlank
   private String Email;
   
   @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)

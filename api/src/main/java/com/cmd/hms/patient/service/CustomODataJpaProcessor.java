@@ -79,7 +79,7 @@ public class CustomODataJpaProcessor extends ODataJPADefaultProcessor {
 
     @Override
     public ODataResponse updateEntity(final PutMergePatchUriInfo uriParserResultView, final InputStream content,
-                                      final String requestContentType, final boolean merge, final String contentType) throws ODataException, ODataJPAModelException, ODataJPARuntimeException, ODataNotFoundException {
+                                      final String requestContentType, boolean merge, final String contentType) throws ODataException, ODataJPAModelException, ODataJPARuntimeException, ODataNotFoundException {
         logger.info("PUT: Entity {} called with key {}", uriParserResultView.getTargetEntitySet().getName(), uriParserResultView.getKeyPredicates().get(0).getLiteral());
         ODataResponse response = null;
         try {

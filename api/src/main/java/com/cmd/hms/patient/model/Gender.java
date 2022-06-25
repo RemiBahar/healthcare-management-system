@@ -14,7 +14,6 @@ public class Gender {
     /** Represents a gender. Decoupled from Patient by being unidirectional, allowing it to be reused for different classes.
      * @param GenderId Primary key of gender
      * @param Title Type of gender e.g. Female
-     * @param IsDeleted Flag to determine whether gender is in-use or not
     */
 
     // Fields
@@ -26,9 +25,6 @@ public class Gender {
     @NotBlank
     @Column(name="title")
     private String Title;
-
-    @Column(name="is_deleted", columnDefinition = "boolean default false")
-    private Boolean IsDeleted = false;
 
     // Getters and setters
     public Long getGenderId() {
@@ -45,14 +41,6 @@ public class Gender {
 
     public void setTitle(String Title) {
         this.Title = Title;
-    }
-
-    public Boolean getIsDeleted() {
-        return IsDeleted;
-    }
-
-    public void setIsDeleted(Boolean IsDeleted) {
-        this.IsDeleted = IsDeleted;
     }
     
 }

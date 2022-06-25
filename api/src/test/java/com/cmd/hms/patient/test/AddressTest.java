@@ -1,16 +1,7 @@
 package com.cmd.hms.patient.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-
 import com.cmd.hms.patient.model.Address;
  
 public class AddressTest extends HttpRequestTest{
@@ -107,237 +98,61 @@ public class AddressTest extends HttpRequestTest{
             
         assertTrue(address.getCountryCode().equals(CountryCode), "CountryCode");
     }
+   
+
+    // Integration tests
 
     @Test
 	public void addAddress() throws Exception {
-		// Patient not finish being added unless you call it again here
-		//this.addPatient();
-		// Add object 
-		String Street = "21";
-		String StreetNumber = "Richmond Road";
-		String ZipCode = "TF54 5PH";
-		String City = "Telford";
-		String Description = "My home address";
-		String Priority = "1";
-		String Region = "Shropshire";
-		String PatientId = "1";
-		String TypeId = "1";
-		String CountryCode = "UK";
+		String requestBody = "{\n  \"Street\": \"Richmond Road\", \"StreetNumber\": \"21\" \n, \"ZipCode\": \"TF54 5PH\", \"City\": \"Telford\", \"Description\": \"My home address\", \"Priority\": \"1\", \"Region\": \"Shropshire\",  \"PatientId\": \"1\", \"TypeId\": \"1\", \"CountryCode\": \"UK\"}";
+        String endpoint = "/Addresss";
+        addObject(requestBody, endpoint);
+    }
 
-		String data = String.format(
-			"{\n  \"Street\": \"%s\", \"StreetNumber\": \"%s\" \n, \"ZipCode\": \"%s\", \"City\": \"%s\", \"Description\": \"%s\", \"Priority\": \"%s\", \"Region\": \"%s\",  \"PatientId\": \"%s\", \"TypeId\": \"%s\", \"CountryCode\": \"%s\"}"
-			,Street, StreetNumber, ZipCode, City, Description, Priority, Region, PatientId, TypeId, CountryCode);
-		
-		String url = BaseUrl + "/Addresss";
-		
-		String getUrl = postObject(data, url);
-
-		String getResponse = restTemplate.getForObject(getUrl,String.class);
-		JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
-
-		// Compare added object with request
-		assertEquals(Street, getJson.get("Street"));
-		assertEquals(ZipCode, getJson.get("ZipCode"));
-		assertEquals(City, getJson.get("City"));
-		assertEquals(Description, getJson.get("Description"));
-		assertEquals(Priority, getJson.get("Priority"));
-		assertEquals(Region, getJson.get("Region"));
-		assertEquals(PatientId, getJson.get("PatientId"));
-		assertEquals(TypeId, getJson.get("TypeId"));
-		assertEquals(CountryCode, getJson.get("CountryCode"));
-	}
+    @Test
+	public void minimalAddAddress() throws Exception {
+        /*
+         * Update according to minimal required fields
+         */
+		String requestBody = "{\n  \"Street\": \"Richmond Road\", \"StreetNumber\": \"30\" \n, \"ZipCode\": \"TF54 5PH\", \"CountryCode\": \"UK\"}";
+        String endpoint = "/Addresss";
+        addObject(requestBody, endpoint);
+    }
 
     @Test
 	public void invalidCountryAddress() throws Exception {
-        // Get initial address
-        String beforeResponse = restTemplate.getForObject(BaseUrl + "/Addresss(1)",String.class);
-		JSONObject beforeJson = new JSONObject(beforeResponse).getJSONObject("d");
-		
-        // Attempt to update address with invalid values for PatientId, TypeId, CountryCode
-        String Street = "1";
-		String StreetNumber = "Dawlish Road";
-		String ZipCode = "B29 7AU";
-		String City = "Birmingham";
-		String Description = "My other address";
-		String Priority = "2";
-		String Region = "West Midlands";
-		String PatientId = "1";
-		String TypeId = "1";
-		String CountryCode = "PK";
-
-		String data = String.format(
-			"{\n  \"Street\": \"%s\", \"StreetNumber\": \"%s\" \n, \"ZipCode\": \"%s\", \"City\": \"%s\", \"Description\": \"%s\", \"Priority\": \"%s\", \"Region\": \"%s\",  \"PatientId\": \"%s\", \"TypeId\": \"%s\", \"CountryCode\": \"%s\"}"
-			,Street, StreetNumber, ZipCode, City, Description, Priority, Region, PatientId, TypeId, CountryCode);
-		
-        String url = BaseUrl + "/Addresss(1)";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<String>(data, headers);
-        restTemplate.put(url, request, String.class);
-    
-
-		String afterResponse = restTemplate.getForObject(url,String.class);
-		JSONObject afterJson = new JSONObject(afterResponse).getJSONObject("d");
-
-		// Due to invalid FK, put operation should fail and fields remain unchanged
-		assertEquals(beforeJson.get("Street"), afterJson.get("Street"));
-        assertEquals(beforeJson.get("StreetNumber"), afterJson.get("StreetNumber"));
-		assertEquals(beforeJson.get("ZipCode"), afterJson.get("ZipCode"));
-		assertEquals(beforeJson.get("City"), afterJson.get("City"));
-		assertEquals(beforeJson.get("Description"), afterJson.get("Description"));
-		assertEquals(beforeJson.get("Priority"), afterJson.get("Priority"));
-		assertEquals(beforeJson.get("Region"), afterJson.get("Region"));
-		assertEquals(beforeJson.get("PatientId"), afterJson.get("PatientId"));
-		assertEquals(beforeJson.get("TypeId"), afterJson.get("TypeId"));
-		assertEquals(beforeJson.get("CountryCode"), afterJson.get("CountryCode"));
+        // Attempt to update address with invalid country code
+		String requestBody = "{\n  \"Street\": \"Dawlish Road\", \"StreetNumber\": \"1\" \n, \"ZipCode\": \"B29 7AU\", \"City\": \"Birmingham\", \"Description\": \"My other address\", \"Priority\": \"2\", \"Region\": \"West Midlands\",  \"PatientId\": \"1\", \"TypeId\": \"1\", \"CountryCode\": \"PK\"}";
+        String endpoint = "/Addresss(1)";
+        invalidUpdateObject(requestBody, endpoint); 
 	}
 
     @Test
 	public void invalidPatientAddress() throws Exception {
-        // Get initial address
-        String beforeResponse = restTemplate.getForObject(BaseUrl + "/Addresss(1)",String.class);
-		JSONObject beforeJson = new JSONObject(beforeResponse).getJSONObject("d");
-		
         // Attempt to update address with invalid values for PatientId
-		String StreetNumber = "1";
-		String PatientId = "10";
-
-		String data = String.format("{\n  \"StreetNumber\": \"%s\", \n\"PatientId\": \"%s\"}",StreetNumber, PatientId);
-		
-        String url = BaseUrl + "/Addresss(1)";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<String>(data, headers);
-        restTemplate.patchForObject(url, request, String.class);
-
-        // Get entity
-		String afterResponse = restTemplate.getForObject(url,String.class);
-		JSONObject afterJson = new JSONObject(afterResponse).getJSONObject("d");
-
-		// Due to invalid FK, patch operation should fail and fields remain unchanged
-        assertEquals(beforeJson.get("StreetNumber"), afterJson.get("StreetNumber"));
-		assertEquals(beforeJson.get("PatientId"), afterJson.get("PatientId"));
+		String requestBody = "{\n  \"StreetNumber\": \"1\", \n\"PatientId\": \"10\"}";
+        String endpoint = "/Addresss(1)";
+        invalidUpdateObject(requestBody, endpoint);
 	}
 
     @Test
 	public void invalidTypeAddress() throws Exception {
-        // Get initial address
-        String beforeResponse = restTemplate.getForObject(BaseUrl + "/Addresss(1)",String.class);
-		JSONObject beforeJson = new JSONObject(beforeResponse).getJSONObject("d");
-		
-        // Attempt to update address with invalid values for PatientId
-		String Street = "Dawlish Road";
-		String TypeId = "10";
-
-		String data = String.format("{\n  \"Street\": \"%s\", \n\"TypeId\": \"%s\"}",Street, TypeId);
-		
-        String url = BaseUrl + "/Addresss(1)";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<String>(data, headers);
-        restTemplate.patchForObject(url, request, String.class);
-
-        // Get entity
-		String afterResponse = restTemplate.getForObject(url,String.class);
-		JSONObject afterJson = new JSONObject(afterResponse).getJSONObject("d");
-
-		// Due to invalid FK, patch operation should fail and fields remain unchanged
-        assertEquals(beforeJson.get("Street"), afterJson.get("Street"));
-		assertEquals(beforeJson.get("TypeId"), afterJson.get("TypeId"));
+        String requestBody = "{\n  \"Street\": \"Dawlish Road\", \n\"TypeId\": \"10\"}";	
+        String endpoint = "/Addresss(1)";
+        invalidUpdateObject(requestBody, endpoint);
 	}
 
     @Test
-	public void patchAddress() throws Exception {
-        // Get initial address
-        String beforeResponse = restTemplate.getForObject(BaseUrl + "/Addresss(1)",String.class);
-		JSONObject beforeJson = new JSONObject(beforeResponse).getJSONObject("d");
-		
-        // Attempt to update address with invalid values for PatientId, TypeId, CountryCode
-        String Street = "1";
-		String StreetNumber = "Dawlish Road";
-		String ZipCode = "B29 7AU";
-		String City = "Birmingham";
-		String Region = "West Midlands";
+	public void updateAddress() throws Exception {
+		String requestBody = "{\n  \"Street\": \"Dawlish Road\", \"StreetNumber\": \"1\" \n, \"ZipCode\": \"B29 7AU\", \"City\": \"Birmingham\", \"Region\": \"West Midlands\"}";
+        String endpoint = "/Addresss(1)";
 
-		String data = String.format(
-			"{\n  \"Street\": \"%s\", \"StreetNumber\": \"%s\" \n, \"ZipCode\": \"%s\", \"City\": \"%s\", \"Region\": \"%s\"}"
-			,Street, StreetNumber, ZipCode, City, Region);
-		
-        String url = BaseUrl + "/Addresss(1)";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<String>(data, headers);
-        restTemplate.patchForObject(url, request, String.class);
-    
-
-		String afterResponse = restTemplate.getForObject(url,String.class);
-		JSONObject afterJson = new JSONObject(afterResponse).getJSONObject("d");
-
-		// Fields included in patch should be changed and fields not included should be unchanged
-		assertEquals(Street, afterJson.get("Street"));
-        assertEquals(StreetNumber, afterJson.get("StreetNumber"));
-		assertEquals(ZipCode, afterJson.get("ZipCode"));
-		assertEquals(City, afterJson.get("City"));
-		assertEquals(beforeJson.get("Description"), afterJson.get("Description"));
-		assertEquals(beforeJson.get("Priority"), afterJson.get("Priority"));
-		assertEquals(Region, afterJson.get("Region"));
-		assertEquals(beforeJson.get("PatientId"), afterJson.get("PatientId"));
-		assertEquals(beforeJson.get("TypeId"), afterJson.get("TypeId"));
-		assertEquals(beforeJson.get("CountryCode"), afterJson.get("CountryCode"));
+        updateObject(requestBody, endpoint);
 	}
+
 
     @Test
-	public void putAddress() throws Exception {
-        // Get initial address
-        String beforeResponse = restTemplate.getForObject(BaseUrl + "/Addresss(1)",String.class);
-		JSONObject beforeJson = new JSONObject(beforeResponse).getJSONObject("d");
-		
-        // Attempt to update address with invalid values for PatientId, TypeId, CountryCode
-        String Street = "10";
-		String StreetNumber = "Bristol Road";
-		String ZipCode = "B15 2SJ";
-		String City = "London";
-		String Region = "Midlands";
-		String PatientId = "1";
-		String TypeId = "1";
-		String CountryCode = "UK";
-
-		String data = String.format(
-			"{\n  \"Street\": \"%s\", \"StreetNumber\": \"%s\" \n, \"ZipCode\": \"%s\", \"City\": \"%s\", \"Region\": \"%s\",  \"PatientId\": \"%s\", \"TypeId\": \"%s\", \"CountryCode\": \"%s\"}"
-			,Street, StreetNumber, ZipCode, City, Region, PatientId, TypeId, CountryCode);
-		
-        String url = BaseUrl + "/Addresss(1)";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<String>(data, headers);
-        System.out.println("now put");
-        restTemplate.put(url, request, String.class);
-    
-
-		String afterResponse = restTemplate.getForObject(url,String.class);
-		JSONObject afterJson = new JSONObject(afterResponse).getJSONObject("d");
-        System.out.println("Getting new");
-        System.out.println("Getting new");
-        System.out.println("Getting new");
-        System.out.println(afterJson);
-        System.out.println("Done");
-        System.out.println("Done");
-
-        System.out.println("Done");
-
-
-		//Fields in put should be updated, other fields should be null or default
-        // TODO behaving like a patch
-		assertEquals(Street, afterJson.get("Street"));
-        assertEquals(StreetNumber, afterJson.get("StreetNumber"));
-		assertEquals(ZipCode, afterJson.get("ZipCode"));
-		assertEquals(City, afterJson.get("City"));
-		//assertFalse(afterJson.has("Description"));
-		//assertFalse(afterJson.has("Priority"));
-		assertEquals(Region, afterJson.get("Region"));
-		assertEquals(PatientId, afterJson.get("PatientId"));
-		assertEquals(TypeId, afterJson.get("TypeId"));
-		assertEquals(CountryCode, afterJson.get("CountryCode"));
-	}
-
+	public void deleteAddress() throws Exception {
+        deleteObject("/Addresss(2)");
+    }
 }
