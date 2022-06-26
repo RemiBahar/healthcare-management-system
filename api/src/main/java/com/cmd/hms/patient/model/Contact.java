@@ -10,9 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import javax.validation.constraints.NotBlank;
-
-
 @Entity
 public class Contact {
   //Fields

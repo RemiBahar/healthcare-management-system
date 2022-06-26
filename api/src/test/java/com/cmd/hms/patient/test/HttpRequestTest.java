@@ -2,7 +2,6 @@ package com.cmd.hms.patient.test;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -11,18 +10,11 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
-
-import antlr.StringUtils;
-
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.TimeZone;
 
 @SpringBootTest(
   webEnvironment = WebEnvironment.DEFINED_PORT,
@@ -36,17 +28,6 @@ public class HttpRequestTest{
     protected TestRestTemplate restTemplate;
 	
 	String BaseUrl ="http://localhost:8079/odata";
-
-	public String postObject(String data, String url) throws Exception{
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> request = new HttpEntity<String>(data, headers);
-		String postResponse = restTemplate.postForObject(url, request, String.class);
-		JSONObject postJson = new JSONObject(postResponse).getJSONObject("d").getJSONObject("__metadata");
-		return postJson.get("id").toString();
-
-		
-	}
 
 	public void addObject(String requestBody, String endpoint) throws Exception{
 		String url = BaseUrl + endpoint;
@@ -135,7 +116,7 @@ public class HttpRequestTest{
 			if(!key.endsWith("Details") && !key.startsWith("__")){ // Ignore metadata or joined object
 				// Fields in update should be changed
 				if(requestJson.has(key)){
-				
+					
 						if(afterJson.get(key).toString().startsWith("/")){ // Comparing dates
 							Long initialDate = Instant.parse(requestJson.get(key) + ".000Z").toEpochMilli(); // Convert request date to unix timestamp
 							String s = afterJson.get(key).toString();
@@ -157,9 +138,6 @@ public class HttpRequestTest{
 
 	}
 
-
-
-
 	public void deleteObject(String endpoint) throws JSONException{
 		// Delete object
 		String url = BaseUrl + endpoint;
@@ -173,26 +151,5 @@ public class HttpRequestTest{
 
 		assertTrue(getJson.has("error"));
 	}
-    
-
-   public String postPatientStatusType(String Status) throws Exception {
-	String data = String.format("{\n  \"Status\": \"%s\" \n}", Status);
-	String url = BaseUrl + "/PatientStatusTypes";
-	String getUrl = postObject(data, url);
-
-	return getUrl;
-
-   }
-
-    
-
-
-	
-	@Test
-	public void greetingShouldReturnDefaultMessage() throws Exception {
-		assertThat(this.restTemplate.getForObject(BaseUrl + "/$metadata",
-				String.class)).contains("Schema");
-	}
-
 	
 }
