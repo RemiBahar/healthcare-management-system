@@ -2,22 +2,21 @@
 # Set-Up Procedure
 
 ## Prerequisites
-
-1. Git
-
-2. JDK
-
-[Install JDK](https://www.oracle.com/java/technologies/downloads/).
-
-3. A code editor (e.g. VScode)
-
-4. Apache Maven
-
-[Install Maven](https://www.baeldung.com/install-maven-on-windows-linux-mac)
-
-5. Postman 
+create
 
 [Intall Postman](https://www.postman.com/downloads/)
+
+Postgres
+https://www.postgresql.org/download/linux/ubuntu/
+
+Switch to postgres account
+
+sudo -i -u postgres
+
+createdb patient
+
+
+
 
   
 
@@ -26,10 +25,10 @@
 1. Clone the repository. Replace `<branch>` with the database management system you would like to use e.g. main for postgresql or H2. For easy set-up H2 is recommended as it comes with a database with no installation required 
 
 ```
-git clone --branch <branch> https://github.com/RemiBahar/healthcare-management-system.git
+git clone https://github.com/RemiBahar/healthcare-management-system.git
 ```
   
-2. From `/patient-api/api` run `mvn spring-boot:run`
+2. From `/healthcare-management-system/api` run `mvn spring-boot:run`
 
 3. From Postman desktop click Collections > Import then import the patient collection `/patient-api/api-test/patient_test_requests`
 
