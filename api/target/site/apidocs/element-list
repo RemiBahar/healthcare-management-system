@@ -1,0 +1,4 @@
+com.cmd.hms.patient
+com.cmd.hms.patient.config
+com.cmd.hms.patient.model
+com.cmd.hms.patient.service

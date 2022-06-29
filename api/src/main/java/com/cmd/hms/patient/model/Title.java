@@ -14,8 +14,6 @@ import javax.validation.constraints.Size;
 @Table(name="title")
 public class Title {
     /** Represents a title. Decoupled from Patient by being unidirectional, allowing it to be reused for different classes.
-     * @param TitleId Primary key of title
-     * @param Title Type of title e.g. Mr
     */
 
     // Fields

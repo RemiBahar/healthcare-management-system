@@ -11,7 +11,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,6 +33,10 @@ public class HttpRequestTest{
 	
 	String BaseUrl ="http://localhost:8079/odata";
 
+	  /** 
+    * Called when a Patient is added via a POST request. Cannot be set by a user
+    * @param data      cannot be null
+    */
 	public String postObject(String data, String url) throws Exception{
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);

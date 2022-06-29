@@ -13,8 +13,6 @@ import javax.validation.constraints.Size;
 @Table(name="gender")
 public class Gender {
     /** Represents a gender. Decoupled from Patient by being unidirectional, allowing it to be reused for different classes.
-     * @param GenderId Primary key of gender
-     * @param Title Type of gender e.g. Female
     */
 
     // Fields

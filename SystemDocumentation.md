@@ -1,3 +1,8 @@
+# System Documentation
+
+This document is split into two sections covering the system architecture and source code respectively. 
+Please see [javadoc](/api/target/site/apidocs/index.html) for the java documentation of the source code.
+
 # System Architecture
 
 This section is intended to give an overview of the key components of the system

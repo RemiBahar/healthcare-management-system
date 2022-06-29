@@ -1,5 +1,10 @@
 # Testing Guide
 
+This document is split into two sections covering the testing done using code (unit, integration, and performance testing) and using postman to
+interact with the API.
+
+For more information, please see the [Testing Javadoc](/api/target/site/testapidocs/index.html).
+
 # Unit and Integration tests
 
 * For increased flexibility and more advanced testing, test cases for the application were coded instead of using postman.
