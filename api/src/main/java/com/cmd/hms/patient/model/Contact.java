@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
@@ -29,11 +30,11 @@ public class Contact {
   private String Name;
 
   @Column(name="telephone")
-  @Pattern(message = "Invalid telephone", regexp="(?:[+]{1}[0-9]{2})?[0-9]{9,10}")
+  @Pattern(message = "Invalid telephone", regexp="(?:[+]{1}[0-9]{2})?[0-9]{5,15}")
   private String Telephone;
 
   @Column(name="mobile")
-  @Pattern(message =  "Invalid mobile", regexp="(?:[+]{1}[0-9]{2})?[0-9]{9,10}")
+  @Pattern(message =  "Invalid mobile", regexp="(?:[+]{1}[0-9]{2})?[0-9]{5,15}")
   private String Mobile;
 
   @Column(name="email")
@@ -45,6 +46,7 @@ public class Contact {
   private Patient Patient;
 
   @Column(name="patient")
+  @NotNull(message = "Contact must be linked to a patient")
   private Long PatientId;
 
   @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)

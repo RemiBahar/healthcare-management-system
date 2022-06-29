@@ -109,6 +109,7 @@ public class AddressTest extends HttpRequestTest{
         addObject(requestBody, endpoint);
     }
 
+
     @Test
 	public void minimalAddAddress() throws Exception {
         /*
@@ -151,7 +152,34 @@ public class AddressTest extends HttpRequestTest{
         invalidUpdateObject(requestBody, endpoint); 
 	}
 
-    
+    /* Test field validation */
+    @Test
+	public void missingStreet() throws Exception {
+		String requestBody = "{\n  \"StreetNumber\": \"21\" \n, \"ZipCode\": \"TF54 5PH\", \"City\": \"Telford\", \"Description\": \"My home address\", \"Priority\": \"1\", \"Region\": \"Shropshire\",  \"PatientId\": \"1\", \"TypeId\": \"1\", \"CountryCode\": \"UK\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
+
+    @Test
+	public void missingStreetNumber() throws Exception {
+		String requestBody = "{\n  \"Street\": \"Richmond Road\", \"ZipCode\": \"TF54 5PH\", \"City\": \"Telford\", \"Description\": \"My home address\", \"Priority\": \"1\", \"Region\": \"Shropshire\",  \"PatientId\": \"1\", \"TypeId\": \"1\", \"CountryCode\": \"UK\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
+
+    @Test
+	public void missingCity() throws Exception {
+		String requestBody = "{\n  \"Street\": \"Richmond Road\", \"StreetNumber\": \"21\" \n, \"ZipCode\": \"TF54 5PH\", \"Description\": \"My home address\", \"Priority\": \"1\", \"Region\": \"Shropshire\",  \"PatientId\": \"1\", \"TypeId\": \"1\", \"CountryCode\": \"UK\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
+
+    @Test
+	public void missingCountry() throws Exception {
+		String requestBody = "{\n  \"Street\": \"Richmond Road\", \"StreetNumber\": \"21\" \n, \"ZipCode\": \"TF54 5PH\", \"City\": \"Telford\", \"Description\": \"My home address\", \"Priority\": \"1\", \"Region\": \"Shropshire\",  \"PatientId\": \"1\", \"TypeId\": \"1\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
 
     /* Test update */
 

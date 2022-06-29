@@ -85,7 +85,7 @@ public class PatientTest extends HttpRequestTest{
 
 	@Test
 	public void minimalAddPatient() throws Exception {
-		String requestBody = "{\n  \"FirstName\": \"Charles\", \"LastName\": \"Xaiver\"}";
+		String requestBody = "{\n  \"FirstName\": \"Charles\", \"LastName\": \"Xaiver\", \"PatientStatusId\": \"1\"}";
 		String endpoint =  "/Patients";
 		addObject(requestBody, endpoint);
 	}
@@ -123,5 +123,34 @@ public class PatientTest extends HttpRequestTest{
 		String endpoint = "/Patients(2)";
 		deleteObject(endpoint);
     }
+
+    /* Field validation tests */
+    @Test
+	public void invaliDateOfBirth() throws Exception {
+		String requestBody = "{\n  \"FirstName\": \"Charles\", \"MiddleName\": \"Francis\" \n, \"LastName\": \"Xaiver\", \"PatientStatusId\": \"1\", \"GenderId\": \"1\", \"TitleId\": \"1\", \"DateOfBirth\": \"3005-04-01T04:00:00\"}";
+		String endpoint =  "/Patients";
+		invalidAddObject(requestBody, endpoint);
+	}
+
+    @Test
+	public void missingFirstName() throws Exception {
+		String requestBody = "{\n  \"MiddleName\": \"Francis\" \n, \"LastName\": \"Xaiver\", \"PatientStatusId\": \"1\", \"GenderId\": \"1\", \"TitleId\": \"1\", \"DateOfBirth\": \"1999-04-01T04:00:00\"}";
+		String endpoint =  "/Patients";
+		invalidAddObject(requestBody, endpoint);
+	}
+
+    @Test
+	public void missingLastName() throws Exception {
+		String requestBody = "{\n  \"FirstName\": \"Charles\", \"MiddleName\": \"Francis\" \n, \"PatientStatusId\": \"1\", \"GenderId\": \"1\", \"TitleId\": \"1\", \"DateOfBirth\": \"1999-04-01T04:00:00\"}";
+		String endpoint =  "/Patients";
+		invalidAddObject(requestBody, endpoint);
+	}
+
+    @Test
+	public void missingStatus() throws Exception {
+		String requestBody = "{\n  \"FirstName\": \"Charles\", \"MiddleName\": \"Francis\" \n, \"LastName\": \"Xaiver\", \"GenderId\": \"1\", \"TitleId\": \"1\", \"DateOfBirth\": \"1999-04-01T04:00:00\"}";
+		String endpoint =  "/Patients";
+		invalidAddObject(requestBody, endpoint);
+	}
 
 }

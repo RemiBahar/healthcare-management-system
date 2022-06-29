@@ -11,6 +11,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -44,6 +45,20 @@ public class HttpRequestTest{
 		
 	}
 
+	public void invalidAddObject(String requestBody, String endpoint) throws Exception{
+		String url = BaseUrl + endpoint;
+		
+		// Add object
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<String> request = new HttpEntity<String>(requestBody, headers); 
+		String postResponse = restTemplate.postForObject(url, request, String.class);
+		JSONObject postJson = new JSONObject(postResponse);
+		
+		// Object should not be added due to invalid requestBody
+		assertTrue(postJson.has("error"));
+	}
+
 	public void addObject(String requestBody, String endpoint) throws Exception{
 		String url = BaseUrl + endpoint;
 		
@@ -71,6 +86,7 @@ public class HttpRequestTest{
 		}
 		
 	}
+	
 	
 
 	public void invalidUpdateObject(String requestBody, String endpoint) throws Exception {

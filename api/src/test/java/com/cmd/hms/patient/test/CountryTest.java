@@ -53,6 +53,5 @@ public class CountryTest extends HttpRequestTest{
          String endpoint = "/Countrys('US')";
          deleteObject(endpoint);
      }
- 
     
 }

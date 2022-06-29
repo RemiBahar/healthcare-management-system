@@ -77,7 +77,7 @@ public class ContactTest extends HttpRequestTest{
 
     @Test
 	public void addContact() throws Exception {
-		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"0162822233\" \n, \"Mobile\": \"0772224455\", \"Email\": \"test@hotmail.com\", \"Priority\": \"1\", \"PatientId\": \"1\", \"TypeId\": \"1\"}";
+		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"+44162822233\" \n, \"Mobile\": \"0772224455\", \"Email\": \"test@hotmail.com\", \"Priority\": \"1\", \"PatientId\": \"1\", \"TypeId\": \"1\"}";
         String endpoint = "/Contacts";
         addObject(requestBody, endpoint);
 	}
@@ -88,7 +88,7 @@ public class ContactTest extends HttpRequestTest{
         /*
          * Update this according to what fields are mandatory according to requirements
          */
-		String requestBody = "{\n  \"Name\": \"Patrick Alan Smith\", \"Mobile\": \"0238848284\"}";
+		String requestBody = "{\n  \"Name\": \"Patrick Alan Smith\", \"PatientId\": \"1\"}";
         String endpoint = "/Contacts";
         addObject(requestBody, endpoint);
 	}
@@ -113,4 +113,39 @@ public class ContactTest extends HttpRequestTest{
         deleteObject("/Contacts(2)");
     }
 
+    /* Field validation tests */
+    @Test
+	public void missingPatient() throws Exception {
+		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"0162822233\" \n, \"Mobile\": \"0772224455\", \"Email\": \"test@hotmail.com\", \"Priority\": \"1\", \"TypeId\": \"1\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
+
+    @Test
+	public void invalidEmail() throws Exception {
+		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"0162822233\" \n, \"Mobile\": \"0772224455\", \"Email\": \"testhotmail.com\", \"Priority\": \"1\", \"PatientId\": \"1\", \"TypeId\": \"1\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
+
+    @Test
+	public void invalidTelephone() throws Exception {
+		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"1234\" \n, \"Mobile\": \"0772224455\", \"Email\": \"test@hotmail.com\", \"Priority\": \"1\", \"PatientId\": \"1\", \"TypeId\": \"1\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
+
+    @Test
+	public void invalidMobile() throws Exception {
+		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"0162822233\" \n, \"Mobile\": \"1234\", \"Email\": \"test@hotmail.com\", \"Priority\": \"1\", \"PatientId\": \"1\", \"TypeId\": \"1\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
+
+    @Test
+	public void invalidPriority() throws Exception {
+		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"0162822233\" \n, \"Mobile\": \"0772224455\", \"Email\": \"test@hotmail.com\", \"Priority\": \"-1\", \"PatientId\": \"1\", \"TypeId\": \"1\"}";
+        String endpoint = "/Addresss";
+        invalidAddObject(requestBody, endpoint);
+    }
 }
