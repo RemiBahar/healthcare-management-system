@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 
@@ -21,15 +21,18 @@ public class Address {
   @Column(name="address_id")
   private Long AddressId;
 
+  @NotBlank(message = "Street number is mandatory")
   @Column(name="street_number") // String used since sometimes a house may have a name or letters
   private String StreetNumber;
 
+  @NotBlank(message = "Street is mandatory")
   @Column(name="street")
   private String Street;
 
   @Column(name="zip_code")
   private String ZipCode;
 
+  @NotBlank(message = "City is mandatory")
   @Column(name="city")
   private String City;
 
@@ -64,6 +67,7 @@ public class Address {
   @JoinColumn(name="country", insertable = false, updatable = false)
   private Country Country;
 
+  @NotBlank(message = "Country is mandatory")
   @Column(name="country", length = 2)
   @Size(min=2, max=2)
   private String CountryCode;

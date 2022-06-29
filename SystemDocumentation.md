@@ -1,19 +1,46 @@
+# System Architecture
+
+This section is intended to give an overview of the key components of the system
+
+![Patient system architecture](/media/patient-architecture.png)
+
+The following design decisions were made
+
+1. <b>Embedded application server (Tomcat)</b>. 
+* By being embedded, the patient microservice can be self-contained. Starting the microservice also starts the embedded server
+* This provides easier deployment and better isolation
+
+2. <b> Olingo </b> 
+* Automatically creates api endpoints based on OData using the classes defined in the data model
+* Implements OData, sending OData responses and allowing for OData requests
+
+3. <b> JPA </b>
+* Allows the database to be defined by the data model which includes getters, setters, joins, and more
+* Allows for interchangeable database management systems
+
+4. <b> Maven </b>
+* Makes management of the service easier using `mvn clean test` to test the application, `mvn clean package` to package the application into a JAR for docker, and `mvn spring-boot:run` to start the service
+* Allows dependency versions to be specified to increase long-term reliability
+* Allows dependencies to be analysed for vulnerabilities
+
+5. <b> Spring-Boot </b>
+* Provides many features, such as automated integration (against api) and unit tests (against data model) run with `mvn clean test`
+* Allows profiles to be defined using different databases, e.g. embedded H2 for testing
+
+6. <b> Docker (optional) </b>
+* Increaes isolation of the application from the host and can make deployment easier 
+
+
 
 # Source Code Description
 
-This document is intended to give an overview of the source-code and decisions made. For more detail, please see the javadoc.
+This section is intended to give an overview of the source-code and decisions made. For more detail, please see the javadoc.
 
 The Patient API is based on the following ERD:
 
-![ERD of patient API](/patient-api/media/mvp-erd.png)
+![ERD of patient API](/media/mvp-erd.png)
 
 
-## System Architecture
-
-* Maven used for package-management 
-* Spring-framework used especially JPA as an ORM to handle database interactions 
-* Postgresql database used. Though by using JPA the database management system is interchangeable
-* Apache Olingo used to ensure the API adheres to OData standards. Also automatically configures API routes
 
 
 ## Naming conventions in Database, Data Model, and API
@@ -104,6 +131,26 @@ Currently we have specified the many to one relation between patient and gender.
 private List<Patient> Patients;
 ```
 
+# Notes
+
+This section contains important notes about the system
+
+## Package Management
+
+* All dependencies are managed by maven and specified in [pom.xml](/api/pom.xml)
+
+* The following are useful tips
+
+    1. Specify a `<version>` for all dependencies to ensure the application does not break with updates
+    2. Some dependencies may be used by dependencies in the configuration, these are transitive dependencies. It is important to find them using `mvn dependency:analyze` and specify a version for them
+    3. Use [mvnrepository](https://mvnrepository.com/) to find dependencies
+
+* Apache Olingo relies on `javax` classes and does not support `jakarta` classes. This means this application has to use older versions of dependencies such as spring-boot in some cases. This has may be fixed in a future olingo updata, in which case, the dependencies in the project would need to be updated to the latest version and all javax dependencies and imports would need to be changed to jakarta.
+
+
+
+
+
 ## HTTP Operations
 
 PUT:
@@ -113,3 +160,13 @@ By default, olingo uses `UpdateType.PATCH` when updating an entity. So even if a
 To set other fields to null there are two options.
 1. Include null in the request body, e.g. `{Description: null}`
 2. When developing a client use `UpdateType.REPLACE` for `getEntityUpdateRequest()`. See https://olingo.apache.org/doc/odata4/tutorials/od4_basic_client_read.html 
+
+
+## Proposed extensions
+
+1. Increasing performance
+    *  Currently this application uses a blocking, multi-threaded approach. Performance can be improved by switching to a non-blocking, event-driven, and asynchronous approach. One way of doing this is to switch to the [reactive stack](https://spring.io/reactive) from spring-boot instead of the currently used [servlet stack](https://docs.spring.io/spring-framework/docs/3.2.x/spring-framework-reference/html/mvc.html)
+
+    * Kubernetes can be used for load-balancing
+
+    * Client caching can be used for increased performance, though this is something that could be handled by a front-end service e.g. an app working with this application as a back-end service

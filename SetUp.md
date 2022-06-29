@@ -1,60 +1,157 @@
 
 # Set-Up Procedure
 
-## Prerequisites
-create
+It is recommended to run this project using docker. This way the patient service has better isolation as the only thing needed to run the project is the docker engine and a docker hub account. 
 
-[Intall Postman](https://www.postman.com/downloads/)
+# Using Docker
 
-Postgres
-https://www.postgresql.org/download/linux/ubuntu/
+## Pre-requisites
+* [Docker engine installed](https://docs.docker.com/engine/install/) and [A docker hub account](https://hub.docker.com/signup)
 
-Switch to postgres account
-
-sudo -i -u postgres
-
-createdb patient
-
-
-
-
-  
 
 ## Steps
 
-1. Clone the repository. Replace `<branch>` with the database management system you would like to use e.g. main for postgresql or H2. For easy set-up H2 is recommended as it comes with a database with no installation required 
+1. Login to docker-hub
 
 ```
-git clone https://github.com/RemiBahar/healthcare-management-system.git
-```
-  
-2. From `/healthcare-management-system/api` run `mvn spring-boot:run`
-
-3. From Postman desktop click Collections > Import then import the patient collection `/patient-api/api-test/patient_test_requests`
-
-
-#### Using H2 branch
-
-4. If you are using H2 you can run the "Get Patients" request to get a list of patients already added in the database. 
-
-#### Using other branches
-
-5. Edit the username, password, and url in `/patient-api/api/src/main/resources/application.properties` to be configured for your database management system
-
-```
-spring.datasource.url=jdbc:h2:file:./database/patient_db
-spring.datasource.username=admin
-spring.datasource.password=password
+sudo docker login
 ```
 
-## Setting up a new API
+2. Pull patient docker image
+
+```
+sudo docker pull remibahar/healthcare-management:patient
+```
+
+3. Run patient service via docker
+
+```
+sudo docker run -p8090:8090 -v /tmp:~/database -d patient-api-0.1.0 
+```
+
+If everything went well you should be able to see the metadata by running the following command on another computer
+
+```
+curl http://<ip>:8090/odata/$metadata
+```
+
+where `<ip>` is the ip address of the host running the patient service.
+
+
+Sometimes a firewall may stop requests from reaching the service. To check this run
+
+```
+telnet <ip> 8090
+```
+
+If this gets stuck on trying then the firewall is the likely culprit.
+
+
+## Useful commands
+
+* Run with H2
+
+```
+sudo docker run -p 8090:8090 -v /tmp:~/database -d patient-api-0.1.0 
+```
+
+* Run with local postgresql
+
+```
+sudo docker run -p 8090:8090 -e "SPRING_PROFILES_ACTIVE=postgresql" -d patient-api-0.1.0 
+```
+
+# Without Docker
+
+## Pre-requisites
+
+* [Java](https://docs.oracle.com/javase/9/install/installation-jdk-and-jre-linux-platforms.htm#JSJIG-GUID-737A84E4-2EFF-4D38-8E60-3E29D1B884B8)
+
+* [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+Git may already be installed, check using `git --version`
+
+* [Maven](https://maven.apache.org/install.html)
+
+On Ubuntu maven can be installed simply with,
+```
+sudo apt update
+sudo apt install maven
+```
+
+Once installed run `mvn --version`
+
+
+## Steps
+
+1. Clone the repository
+
+```
+git clone https://github.com/RemiBahar/patient.git
+
+```
+
+2. Run project
+
+```
+cd patient/api
+mvn clean install
+mvn spring-boot:run
+```
+
+If everything went well you should be able to see the metadata by running the following command on another computer
+
+```
+curl http://<ip>:8090/odata/$metadata
+```
+
+where `<ip>` is the ip address of the host running the patient service.
+
+
+Sometimes a firewall may stop requests from reaching the service. To check this run
+
+```
+telnet <ip> 8090
+```
+
+If this gets stuck on trying then the firewall is the likely culprit.
+
+## Useful commands
+
+* Re-compile
+
+```
+mvn clean install
+```
+
+* Test the service
+
+```
+mvn clean test
+```
+
+* Run the service (by default it uses a H2 database)
+
+```
+mvn spring-boot:run
+```
+
+* Run the service using a local postgresql database
+
+```
+mvn spring-boot:run -Dspring-boot.run.profiles=h2
+```
+
+
+# Setting up a new API
 
 Apart from the code used to define the patient data model in the /model directory, the rest of the code in this API can be reused as is for other APIs.
 
 To use this API's code to build an API to manage a different set of data, do the following:
 
-1. Follow the instructions in the the Set-up section
-2. Define a data model in the /model directory. See the Data Model Guide section below for guidance on how the data model works
+1. Follow the instructions in the previous two sections
+2. Define a data model in the [/model](/api/src/main/java/com/cmd/hms/patient/model/) directory. See [SystemDocumentation.md](SystemDocumentation.md) for guidance on how the data model works
+3. Define test cases in the [/test](/api/src/test/java/com/cmd/hms/patient/test/) directory. See [Testing.md](Testing.md)
 
 We will now go through the rest of the code used in this API. Please see the System Architecture section for more detail.
 
