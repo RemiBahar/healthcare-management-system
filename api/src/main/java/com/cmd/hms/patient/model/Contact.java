@@ -10,7 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 
 @Entity
@@ -22,15 +25,19 @@ public class Contact {
   private Long Id;
 
   @Column(name="name")
+  @Size(max = 10000)
   private String Name;
 
   @Column(name="telephone")
+  @Pattern(message = "Invalid telephone", regexp="(?:[+]{1}[0-9]{2})?[0-9]{9,10}")
   private String Telephone;
 
   @Column(name="mobile")
+  @Pattern(message =  "Invalid mobile", regexp="(?:[+]{1}[0-9]{2})?[0-9]{9,10}")
   private String Mobile;
 
   @Column(name="email")
+  @Email(message="Must be email")
   private String Email;
   
   @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
@@ -48,6 +55,7 @@ public class Contact {
   private Long TypeId;
 
   @Column(name="priority")
+  @Positive
   private Long Priority;
 
 
@@ -74,7 +82,7 @@ public class Contact {
   }
 
   public void setTelephone(String Telephone) {
-    this.Telephone = Telephone;
+    this.Telephone = Telephone.replaceAll("\\s+","");
   }
 
   public String getMobile() {
@@ -82,7 +90,7 @@ public class Contact {
   }
 
   public void setMobile(String Mobile) {
-    this.Mobile = Mobile;
+    this.Mobile = Mobile.replaceAll("\\s+","");
   }
 
   public String getEmail() {
