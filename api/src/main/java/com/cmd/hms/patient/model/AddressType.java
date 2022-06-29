@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name="address_type")
@@ -20,6 +21,7 @@ public class AddressType{
   private Long AddressTypeId;
 
   @Column(name="title")
+  @NotBlank(message = "Title is mandatory")
   private String Title;
 
   // Joins

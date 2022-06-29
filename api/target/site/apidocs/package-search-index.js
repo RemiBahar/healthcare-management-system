@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"com.cmd.hms.patient"},{"l":"com.cmd.hms.patient.config"},{"l":"com.cmd.hms.patient.model"},{"l":"com.cmd.hms.patient.service"}];updateSearchResults();

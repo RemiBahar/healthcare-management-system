@@ -2,6 +2,7 @@ package com.cmd.hms.patient.test;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,17 +13,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestPropertySource;
 
-import antlr.StringUtils;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Iterator;
-import java.util.TimeZone;
 
 @SpringBootTest(
   webEnvironment = WebEnvironment.DEFINED_PORT,
@@ -54,7 +50,7 @@ public class HttpRequestTest{
 		// Add object
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> request = new HttpEntity<String>(requestBody, headers);
+		HttpEntity<String> request = new HttpEntity<String>(requestBody, headers); 
 		String postResponse = restTemplate.postForObject(url, request, String.class);
 		JSONObject postJson = new JSONObject(postResponse).getJSONObject("d").getJSONObject("__metadata");
 		String getUrl = postJson.get("id").toString();
@@ -75,6 +71,7 @@ public class HttpRequestTest{
 		}
 		
 	}
+	
 
 	public void invalidUpdateObject(String requestBody, String endpoint) throws Exception {
 		String url = BaseUrl + endpoint;

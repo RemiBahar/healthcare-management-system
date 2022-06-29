@@ -1,11 +1,7 @@
 package com.cmd.hms.patient.test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
-
 import com.cmd.hms.patient.model.PatientStatusType;
 
 public class PatientStatusTypeTest extends HttpRequestTest{

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -26,6 +28,8 @@ public class PatientStatusType {
     private Long StatusId;
 
     @Column(name="status")
+    @NotBlank(message="Status title required")
+    @Size(max=100)
     private String Status;
 
     @Column(name="is_deleted", columnDefinition = "boolean default false")

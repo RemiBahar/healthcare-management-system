@@ -114,7 +114,7 @@ public class AddressTest extends HttpRequestTest{
         /*
          * Update according to minimal required fields
          */
-		String requestBody = "{\n  \"Street\": \"Richmond Road\", \"StreetNumber\": \"30\" \n, \"ZipCode\": \"TF54 5PH\", \"CountryCode\": \"UK\"}";
+		String requestBody = "{\n  \"Street\": \"Richmond Road\", \"StreetNumber\": \"30\" \n, \"City\": \"London\", \"CountryCode\": \"UK\"}";
         String endpoint = "/Addresss";
         addObject(requestBody, endpoint);
     }
@@ -141,6 +141,19 @@ public class AddressTest extends HttpRequestTest{
         String endpoint = "/Addresss(1)";
         invalidUpdateObject(requestBody, endpoint);
 	}
+
+    /* Test validated fields */
+    @Test
+	public void missingStreetAddress() throws Exception {
+        // Attempt to update address with invalid country code
+		String requestBody = "{\n  \"Street\": null \n, \"ZipCode\": \"B29 7AU\"}";
+        String endpoint = "/Addresss(1)";
+        invalidUpdateObject(requestBody, endpoint); 
+	}
+
+    
+
+    /* Test update */
 
     @Test
 	public void updateAddress() throws Exception {

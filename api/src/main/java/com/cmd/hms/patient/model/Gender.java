@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="gender")
@@ -22,8 +23,9 @@ public class Gender {
     @Column(name="gender_id")
     private Long GenderId;
 
-    @NotBlank
     @Column(name="title")
+    @NotBlank(message="Gender title required")
+    @Size(max=100)
     private String Title;
 
     // Getters and setters

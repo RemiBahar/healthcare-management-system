@@ -77,7 +77,7 @@ public class ContactTest extends HttpRequestTest{
 
     @Test
 	public void addContact() throws Exception {
-		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"01628222333\" \n, \"Mobile\": \"07722244555\", \"Email\": \"test@hotmail.com\", \"Priority\": \"1\", \"PatientId\": \"1\", \"TypeId\": \"1\"}";
+		String requestBody = "{\n  \"Name\": \"John Smith Wick\", \"Telephone\": \"0162822233\" \n, \"Mobile\": \"0772224455\", \"Email\": \"test@hotmail.com\", \"Priority\": \"1\", \"PatientId\": \"1\", \"TypeId\": \"1\"}";
         String endpoint = "/Contacts";
         addObject(requestBody, endpoint);
 	}
@@ -88,7 +88,7 @@ public class ContactTest extends HttpRequestTest{
         /*
          * Update this according to what fields are mandatory according to requirements
          */
-		String requestBody = "{\n  \"Name\": \"Patrick Alan Smith\", \"Mobile\": \"023884828429\"}";
+		String requestBody = "{\n  \"Name\": \"Patrick Alan Smith\", \"Mobile\": \"0238848284\"}";
         String endpoint = "/Contacts";
         addObject(requestBody, endpoint);
 	}

@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -43,16 +46,23 @@ public class Patient {
     private Long PatientId;
 
     @Column(name="first_name")
+    @NotBlank(message="First name required")
+    @Size(max=1000)
     private String FirstName;
 
     @Column(name="last_name")
+    @NotBlank(message="Last name required")
+    @Size(max=1000)
     private String LastName;
 
     @Column(name="middle_name")
+    @Size(max=1000)
     private String MiddleName;
 
+    @Column(name="date_of_birth")
+    @Past(message="Date of birth must be in the past")
+    private Date DateOfBirth;
    
-
     // Joined fields
 
     @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
@@ -78,9 +88,6 @@ public class Patient {
 
     @Column(name="title")
     private Long TitleId;
-
-    @Column(name="date_of_birth")
-    private Date DateOfBirth;
 
     @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
     private List<Address> Addresses;

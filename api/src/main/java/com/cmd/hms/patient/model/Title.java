@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="title")
@@ -23,8 +24,9 @@ public class Title {
     @Column(name="title_id")
     private Long TitleId;
 
-    @NotBlank
     @Column(name="title")
+    @NotBlank(message="Title required")
+    @Size(max=100)
     private String Title;
 
     // Getters and setters
