@@ -36,6 +36,8 @@ The following design decisions were made:
 
 Please see [SourceCode.md](SourceCode.md) for details on the source code. There is also a [javadoc](https://htmlpreview.github.io/?https://github.com/RemiBahar/patient/blob/main/api/target/site/apidocs/index.html).
 
+![ERD of patient API](/media/mvp-erd.png)
+
 
 ## Set-up procedure
 

@@ -1,12 +1,6 @@
 # Source Code Description
 
-This section is intended to give an overview of the source-code and decisions made. For more detail, please see the javadoc.
-
-The Patient API is based on the following ERD:
-
-![ERD of patient API](/media/mvp-erd.png)
-
-
+This section is intended to give an overview of the source-code and decisions made. For more detail, please see the [javadoc](https://htmlpreview.github.io/?https://github.com/RemiBahar/patient/blob/main/api/target/site/apidocs/index.html)
 
 
 ## Naming conventions in Database, Data Model, and API
