@@ -189,6 +189,26 @@ public class HttpRequestTest{
 
 		assertTrue(getJson.has("error"));
 	}
+
+	public void deleteObject(String requestBody, String endpoint) throws JSONException{
+		// Delete object
+		String url = BaseUrl + endpoint;
+		HttpHeaders headers = new HttpHeaders();
+
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		restTemplate.delete(url, String.class);
+
+		//Check if object deleted
+		HttpEntity<String> request = new HttpEntity<String>(requestBody, headers);
+        String updateResponse = restTemplate.patchForObject(url, request, String.class);
+		JSONObject updateJson = new JSONObject(updateResponse);
+
+		String getResponse = restTemplate.getForObject(url,String.class);
+		JSONObject getJson = new JSONObject(getResponse);
+
+		assertTrue(getJson.has("error"));
+		assertTrue(updateJson.has("error"));
+	}
     
 
    public String postPatientStatusType(String Status) throws Exception {

@@ -22,7 +22,7 @@ public class Title {
     @Column(name="title_id")
     private Long TitleId;
 
-    @Column(name="title")
+    @Column(name="title", length = 100, nullable = false)
     @NotBlank(message="Title required")
     @Size(max=100)
     private String Title;

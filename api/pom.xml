@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <parent>
+     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.3.1.RELEASE</version>
@@ -29,9 +29,20 @@
         <!-- 2.7.0 -->
         <springBootVersionNew>2.7.0</springBootVersionNew> 
         <olingoVersion>2.0.12</olingoVersion>
+        <gatling.version>3.7.6</gatling.version>
+        <gatling-maven-plugin.version>4.1.6</gatling-maven-plugin.version>
+        <!-- use the following if you're compiling with JDK 8-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- comment the 2 lines above and uncomment the line bellow if you're compiling with JDK 11 or 17 -->
+        <!--    <maven.compiler.release>11</maven.compiler.release>-->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <gatling.version>3.7.6</gatling.version>
+        <gatling-maven-plugin.version>4.1.6</gatling-maven-plugin.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
     </properties>
     
-
     <dependencies>
     <!-- Spring -->
         <dependency>
@@ -261,7 +272,21 @@
 
         <!-- For validation -->
         
-        <!-- Other dependencies - run mvn dependency:analyze -->
+        <!-- For Load testing -->
+        <dependency>
+            <groupId>io.gatling.highcharts</groupId>
+            <artifactId>gatling-charts-highcharts</artifactId>
+            <version>${gatling.version}</version>
+            <scope>test</scope>
+        </dependency>
+        
+        <!-- Needed or gatling won't run -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-tcnative-boringssl-static</artifactId>
+            <version>2.0.50.Final</version>
+        </dependency>
+
 
     </dependencies>
 
@@ -299,11 +324,38 @@
                 <configuration>
                     <executable>true</executable>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.0.0</version>
+                <configuration>
+                    <show>private</show>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven-jar-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>io.gatling</groupId>
+                <artifactId>gatling-maven-plugin</artifactId>
+                <version>${gatling-maven-plugin.version}</version>
+                <configuration>
+                <!-- Enterprise Cloud (https://cloud.gatling.io/) configuration reference: https://gatling.io/docs/gatling/reference/current/extensions/maven_plugin/#working-with-gatling-enterprise-cloud -->
+                <!-- Enterprise Self-Hosted configuration reference: https://gatling.io/docs/gatling/reference/current/extensions/maven_plugin/#working-with-gatling-enterprise-self-hosted -->
+                </configuration>
             </plugin>
         </plugins>
     </build>

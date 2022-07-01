@@ -1,4 +1,5 @@
 com/cmd/hms/patient/test/ContactTypeTest.class
+com/cmd/hms/patient/test/PatientSimulation.class
 com/cmd/hms/patient/test/HttpRequestTest.class
 com/cmd/hms/patient/test/AddressTypeTest.class
 com/cmd/hms/patient/test/ContactTest.class

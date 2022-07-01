@@ -3,7 +3,7 @@
 This document is split into two sections covering the testing done using code (unit, integration, and performance testing) and using postman to
 interact with the API.
 
-For more information, please see the [Testing Javadoc](/api/target/site/testapidocs/index.html).
+For more information, please see the [Testing Javadoc](https://htmlpreview.github.io/?https://github.com/RemiBahar/patient/blob/main/api/target/site/testapidocs/index.html).
 
 # Unit and Integration tests
 

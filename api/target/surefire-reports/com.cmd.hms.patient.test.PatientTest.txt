@@ -1,28 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.cmd.hms.patient.test.PatientTest
 -------------------------------------------------------------------------------
-Tests run: 19, Failures: 0, Errors: 6, Skipped: 0, Time elapsed: 0.659 s <<< FAILURE! - in com.cmd.hms.patient.test.PatientTest
-invalidPatientGender  Time elapsed: 0.129 s  <<< ERROR!
+Tests run: 19, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.518 s <<< FAILURE! - in com.cmd.hms.patient.test.PatientTest
+minimalAddPatient  Time elapsed: 0.033 s  <<< ERROR!
 org.json.JSONException: No value for d
-	at com.cmd.hms.patient.test.PatientTest.invalidPatientGender(PatientTest.java:104)
-
-invalidPatientId  Time elapsed: 0.043 s  <<< ERROR!
-org.json.JSONException: No value for d
-	at com.cmd.hms.patient.test.PatientTest.invalidPatientId(PatientTest.java:97)
-
-invalidPatientTitle  Time elapsed: 0.043 s  <<< ERROR!
-org.json.JSONException: No value for d
-	at com.cmd.hms.patient.test.PatientTest.invalidPatientTitle(PatientTest.java:111)
-
-minimalAddPatient  Time elapsed: 0.03 s  <<< ERROR!
-org.json.JSONException: No value for d
-	at com.cmd.hms.patient.test.PatientTest.minimalAddPatient(PatientTest.java:90)
-
-addPatient  Time elapsed: 0.032 s  <<< ERROR!
-org.json.JSONException: No value for d
-	at com.cmd.hms.patient.test.PatientTest.addPatient(PatientTest.java:83)
-
-updatePatient  Time elapsed: 0.031 s  <<< ERROR!
-org.json.JSONException: No value for d
-	at com.cmd.hms.patient.test.PatientTest.updatePatient(PatientTest.java:118)
+	at com.cmd.hms.patient.test.PatientTest.minimalAddPatient(PatientTest.java:108)
 

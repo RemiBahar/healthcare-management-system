@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
 import com.cmd.hms.patient.model.Patient;
@@ -78,14 +80,30 @@ public class PatientTest extends HttpRequestTest{
 
     @Test
 	public void addPatient() throws Exception {
-		String requestBody = "{\n  \"FirstName\": \"Charles\", \"MiddleName\": \"Francis\" \n, \"LastName\": \"Xaiver\", \"PatientStatusId\": \"1\", \"GenderId\": \"1\", \"TitleId\": \"1\", \"DateOfBirth\": \"1999-04-01T04:00:00\"}";
+		String requestBody = "{\n  \"FirstName\": \"Charles\", \"MiddleName\": \"Francis\" \n, \"LastName\": \"Xaiver\", \"PatientStatusId\": \"2\", \"GenderId\": \"1\", \"TitleId\": \"1\", \"DateOfBirth\": \"1999-04-01T04:00:00\"}";
 		String endpoint =  "/Patients";
 		addObject(requestBody, endpoint);
 	}
 
 	@Test
 	public void minimalAddPatient() throws Exception {
-		String requestBody = "{\n  \"FirstName\": \"Charles\", \"LastName\": \"Xaiver\", \"PatientStatusId\": \"1\"}";
+		Random random = new Random();
+		String FirstName = RandomStringUtils.randomAlphanumeric(random.nextInt(100) + 1);
+		String LastName = RandomStringUtils.randomAlphanumeric(random.nextInt(100) + 1);
+		Integer Status = random.nextInt(4) + 2;
+		
+		String requestBody = String.format("{\n  \"FirstName\": \"%s\", \"LastName\": \"%s\", \"PatientStatusId\": \"%s\"}",
+								FirstName, LastName, Status);
+		System.out.println(requestBody);
+		System.out.println(requestBody);
+		System.out.println(requestBody);
+		System.out.println(requestBody);
+		System.out.println(requestBody);
+		System.out.println(requestBody);
+		System.out.println(requestBody);
+		System.out.println(requestBody);
+		System.out.println(requestBody);
+
 		String endpoint =  "/Patients";
 		addObject(requestBody, endpoint);
 	}
@@ -120,8 +138,9 @@ public class PatientTest extends HttpRequestTest{
 
     @Test
 	public void deletePatient() throws Exception {
+		String requestBody = "{\n  \"FirstName\": \"Alan test\"}";
 		String endpoint = "/Patients(2)";
-		deleteObject(endpoint);
+		deleteObject(requestBody,endpoint);
     }
 
     /* Field validation tests */

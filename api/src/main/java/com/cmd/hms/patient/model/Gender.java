@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -21,7 +22,7 @@ public class Gender {
     @Column(name="gender_id")
     private Long GenderId;
 
-    @Column(name="title")
+    @Column(name="title", nullable = false, length = 100)
     @NotBlank(message="Gender title required")
     @Size(max=100)
     private String Title;

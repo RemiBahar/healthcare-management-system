@@ -115,7 +115,7 @@ public class AddressTest extends HttpRequestTest{
         /*
          * Update according to minimal required fields
          */
-		String requestBody = "{\n  \"Street\": \"Richmond Road\", \"StreetNumber\": \"30\" \n, \"City\": \"London\", \"CountryCode\": \"UK\"}";
+        String requestBody = "{\n  \"Street\": \"Richmond Road\", \"StreetNumber\": \"21\" \n, \"City\": \"Telford\", \"PatientId\": \"1\", \"CountryCode\": \"UK\"}";
         String endpoint = "/Addresss";
         addObject(requestBody, endpoint);
     }

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -19,7 +20,7 @@ public class Country{
   @Size(min=2, max=2)
   private String CountryCode; // 2-letter country code used instead of auto-generated id
 
-  @Column(name="name")
+  @Column(name="name", length = 100, nullable = false)
   @NotBlank(message="Country name required")
   @Size(max=100)
   private String Name;

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,6 +23,14 @@ import org.hibernate.annotations.Where;
 
 import java.util.Date;
 
+ /** 
+  * <ul>
+    * <li>Used to represent a Patient entity, the main entity in the API 
+    * <li>Generates the patient database table
+    * <li>Uses a soft delete to set PatientStatus to 3 when a DELETE request is made
+    * <li>Only Patients not deleted (with PatientStatus = 3) are accessible
+    * </ul>
+*/
 @Entity
 @Table(name="patient")
 @SQLDelete(sql = "UPDATE patient SET patient_status = 3 WHERE patient_id=?")
@@ -35,24 +44,24 @@ public class Patient {
     @Column(name="patient_id")
     private Long PatientId;
 
-    /** corresponds to first_name column - is required in HTTP request body and must be less than 1000 characters
+    /** corresponds to first_name column - is required in HTTP request body and must be less than 100 characters
     */
-    @Column(name="first_name")
+    @Column(name="first_name", length = 100, nullable = false)
     @NotBlank(message="First name required")
-    @Size(max=1000)
+    @Size(max=100)
     private String FirstName;
 
     /** corresponds to last_name column - is required in HTTP request body and must be less than 1000 characters
     */
-    @Column(name="last_name")
+    @Column(name="last_name", length = 100, nullable = false)
     @NotBlank(message="Last name required")
-    @Size(max=1000)
+    @Size(max = 100)
     private String LastName;
 
-    /** corresponds to middle_name column - must be less than 1000 characters
+    /** corresponds to middle_name column - must be less than 100 characters
     */
-    @Column(name="middle_name")
-    @Size(max=1000)
+    @Column(name="middle_name", length = 100)
+    @Size(max=100)
     private String MiddleName;
 
     /** corresponds to date_of_birth column - must be a datetime in the past and in the format 'yyyy-mm-ddThh:mm:ss'
@@ -66,6 +75,7 @@ public class Patient {
     /** list of a patient's contacts - accessed by /Patient(ID)/ContactDetails
     */
     @OneToMany(mappedBy = "Patient") // mappedBy refers to field name in child table pointing to this table
+    @OrderBy("priority ASC")
     private List<Contact> Contacts;
 
     /** corresponds to patient_status column - cannot be null, set using PatientStatusId field
@@ -76,7 +86,7 @@ public class Patient {
 
     /** used to set patient_status by passing {PatientStatusId:1} as HTTP request body, the value passed must be a correct foreign key
     */
-    @Column(name="patient_status")
+    @Column(name="patient_status", nullable = false)
     @NotNull(message = "Patient status is required")
     private Long PatientStatusId;
 
@@ -105,7 +115,12 @@ public class Patient {
     /** list of a patient's addresses - accessed by /Patient(ID)/AddressDetails
     */
     @OneToMany(mappedBy = "Patient") 
+    @OrderBy("priority ASC")
     private List<Address> Addresses;
+
+    /* Constructors */
+     //Constructor
+    public Patient(){}
     
     /** Called during /Patients GET request
      * @return      PatientId of patient
@@ -146,7 +161,7 @@ public class Patient {
 
     /** 
     * Called when LastName is in the request body of a PUT, POST, or PATCH request
-    * @param LastName       must be under 1000 characters and cannot be null or blank
+    * @param LastName       must be under 100 characters and cannot be null or blank
     */
     public void setLastName(String LastName) {
         this.LastName = LastName;
@@ -161,7 +176,7 @@ public class Patient {
 
     /** 
     * Called when MiddleName is in the request body of a PUT, POST, or PATCH request
-    * @param MiddleName       must be under 1000 characters
+    * @param MiddleName       must be under 100 characters
     */
     public void setMiddleName(String MiddleName) {
         this.MiddleName = MiddleName;

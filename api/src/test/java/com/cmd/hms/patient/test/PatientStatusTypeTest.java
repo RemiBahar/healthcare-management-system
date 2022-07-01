@@ -57,9 +57,10 @@ public class PatientStatusTypeTest extends HttpRequestTest{
 	}
 
     @Test
-	public void deleteGender() throws Exception {
-		String endpoint = "/PatientStatusTypes  (2)";
-		deleteObject(endpoint);
+	public void deleteStatus() throws Exception {
+        String requestBody = "{\n  \"Status\": \"Updated status\" \n}";
+		String endpoint = "/PatientStatusTypes  (1)";
+		deleteObject(requestBody, endpoint);
 	}
       
 }

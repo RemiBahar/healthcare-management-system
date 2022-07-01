@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -27,7 +28,7 @@ public class PatientStatusType {
     @Column(name="status_id")
     private Long StatusId;
 
-    @Column(name="status")
+    @Column(name="status", length = 100, nullable = false)
     @NotBlank(message="Status title required")
     @Size(max=100)
     private String Status;

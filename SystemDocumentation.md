@@ -1,7 +1,7 @@
 # System Documentation
 
 This document is split into two sections covering the system architecture and source code respectively. 
-Please see [javadoc](/api/target/site/apidocs/index.html) for the java documentation of the source code.
+Please see [javadoc](https://htmlpreview.github.io/?https://github.com/RemiBahar/patient/blob/main/api/target/site/apidocs/index.html) for the java documentation of the source code.
 
 # System Architecture
 
