@@ -1,8 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.cmd.hms.patient.test.PatientTest
 -------------------------------------------------------------------------------
-Tests run: 19, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.518 s <<< FAILURE! - in com.cmd.hms.patient.test.PatientTest
-minimalAddPatient  Time elapsed: 0.033 s  <<< ERROR!
-org.json.JSONException: No value for d
-	at com.cmd.hms.patient.test.PatientTest.minimalAddPatient(PatientTest.java:108)
-
+Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.597 s - in com.cmd.hms.patient.test.PatientTest

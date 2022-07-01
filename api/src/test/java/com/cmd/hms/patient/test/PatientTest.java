@@ -88,9 +88,9 @@ public class PatientTest extends HttpRequestTest{
 	@Test
 	public void minimalAddPatient() throws Exception {
 		Random random = new Random();
-		String FirstName = RandomStringUtils.randomAlphanumeric(random.nextInt(100) + 1);
-		String LastName = RandomStringUtils.randomAlphanumeric(random.nextInt(100) + 1);
-		Integer Status = random.nextInt(4) + 2;
+		String FirstName = RandomStringUtils.randomAlphanumeric(random.nextInt(99) + 1);
+		String LastName = RandomStringUtils.randomAlphanumeric(random.nextInt(99) + 1);
+		Integer Status = random.nextInt(3) + 2;
 		
 		String requestBody = String.format("{\n  \"FirstName\": \"%s\", \"LastName\": \"%s\", \"PatientStatusId\": \"%s\"}",
 								FirstName, LastName, Status);
