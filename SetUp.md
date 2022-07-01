@@ -7,6 +7,52 @@ It is recommended to run this project using docker. This way the patient service
 
 ## Pre-requisites
 * [Docker engine installed](https://docs.docker.com/engine/install/) and [A docker hub account](https://hub.docker.com/signup)
+* An image of the system published to docker hub
+
+If you would like to publish a new image, please see the steps below
+
+Create a JAR of the patient service 
+```
+cd api
+mvn clean package
+```
+
+Restart docker
+```
+sudo service docker restart
+```
+
+Create docker image
+```
+sudo docker build –t patient-api-0.1.0 . 
+```
+
+Run docker container
+```
+sudo docker run -p8090:8090 -v /tmp:/home/remi/database -d patient-api-0.1.0 
+```
+
+Check docker container service is working
+```
+curl --request GET localhost:8090/odata/$metadata
+```
+
+Login to docker-hub
+```
+sudo docker login
+```
+
+Push the image to docker-hub
+
+```
+sudo docker image ls 
+sudo docker tag LOCAL_REPOSITORY:LOCAL_TAG DOCKER_USERNAME/REMOTE_REPOSITORY:REMOTE_TAG
+sudo docker push DOCKER_USERNAME/REMOTE_REPOSITORY:REMOTE_TAG
+```
+
+* `LOCAL_REPOSITORY:LOCAL_TAG` - `REPOSITORY:TAG` of docker container locally after running `sudo docker image ls`
+* `DOCKER_USERNAME` - username you use to login to docker hub
+* `REMOTE_REPOSITORY:REMOTE_TAG` - name of remote repository and tag used for container
 
 
 ## Steps
@@ -14,6 +60,7 @@ It is recommended to run this project using docker. This way the patient service
 1. Login to docker-hub
 
 ```
+docker --version
 sudo docker login
 ```
 
@@ -26,7 +73,15 @@ sudo docker pull remibahar/healthcare-management:patient
 3. Run patient service via docker
 
 ```
-sudo docker run -p8090:8090 -v /tmp:~/database -d patient-api-0.1.0 
+cd ~
+pwd
+```
+
+Copy the directory outputted we will refer to it as `<HOME>`
+
+```
+sudo docker image ls
+sudo docker run -p8090:8090 -v /tmp:<HOME>/database -d IMAGE_ID
 ```
 
 If everything went well you should be able to see the metadata by running the following command on another computer
@@ -59,6 +114,13 @@ sudo docker run -p 8090:8090 -v /tmp:~/database -d patient-api-0.1.0
 
 ```
 sudo docker run -p 8090:8090 -e "SPRING_PROFILES_ACTIVE=postgresql" -d patient-api-0.1.0 
+```
+
+* Stopping the docker service
+
+```
+sudo docker ps
+sudo docker stop CONTAINER_ID
 ```
 
 # Without Docker
