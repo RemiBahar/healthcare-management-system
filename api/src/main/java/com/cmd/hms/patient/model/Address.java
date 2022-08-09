@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import com.cmd.hms.patient.service.SecurityMethods;
+
 
  /**Used to represent an Address, stored in the address table and accessible via /Addresss. Linked to a Patient on a many-to-one basis.
 */
@@ -31,14 +33,14 @@ public class Address {
    /**Corresponds to street_number, must be included in POST/PUT requests and has a maximum length of 1000 characters
   */
   @NotBlank(message = "Street number is mandatory")
-  @Column(name="street_number", length = 1000, nullable = false) // String used since sometimes a house may have a name or letters
+  @Column(name="street_number", length = 1000) // String used since sometimes a house may have a name or letters
   @Size(max = 1000)
   private String StreetNumber;
   
   /**Corresponds to street, must be included in POST/PUT requests and has a maximum length of 1000 characters
   */
   @NotBlank(message = "Street is mandatory")
-  @Column(name="street", length = 1000, nullable = false)
+  @Column(name="street", length = 1000)
   @Size(max = 1000)
   private String Street;
 
@@ -51,13 +53,13 @@ public class Address {
   /**Corresponds to city, must be included in POST/PUT requests and has a maximum length of 1000 characters
   */
   @NotBlank(message = "City is mandatory")
-  @Column(name="city", length = 1000, nullable = false)
+  @Column(name="city", length = 1000)
   @Size(max = 1000)
   private String City;
 
   /**Corresponds to street_number, has a maximum length of 10000 characters
   */
-  @Column(name="description", length = 1000)
+  @Column(name="description", length = 10000)
   @Size(max = 10000)
   private String Description;
 
@@ -120,7 +122,11 @@ public class Address {
    * @return  AddressId
    */
   public Long getAddressId() {
-    return AddressId;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return AddressId;
+    } else{
+        return 0L; // PK can't be NULL
+    }
   }
 
   /** Used when adding a new Address with a POST request
@@ -128,7 +134,9 @@ public class Address {
    * @param AddressId cannot be set manually by the user
    */
   public void setAddressId(Long AddressId) {
-    this.AddressId = AddressId;
+    if(new SecurityMethods().editAddress()){
+      this.AddressId = AddressId;
+    } 
   }
 
   /** Used in GET requests to get the StreetNumber of an Address
@@ -136,7 +144,11 @@ public class Address {
    * @return StreetNumber - street number of the address, represented by a String since some addresses my have a name
    */
   public String getStreetNumber() {
-    return StreetNumber;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return StreetNumber;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the StreetNumber in POST/PUT/PATCH requests
@@ -144,7 +156,9 @@ public class Address {
    * @param StreetNumber street number to set
    */
   public void setStreetNumber(String StreetNumber) {
-    this.StreetNumber = StreetNumber;
+    if(new SecurityMethods().editAddress()){
+      this.StreetNumber = StreetNumber;
+    } 
   }
 
   /** Used to get the Street in GET requests
@@ -152,7 +166,11 @@ public class Address {
    * @return Street
    */
   public String getStreet() {
-    return Street;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Street;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Street in POST/PUT/PATCH requests
@@ -168,7 +186,11 @@ public class Address {
    * @return ZipCode
    */
   public String getZipCode() {
-    return ZipCode;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return ZipCode;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the ZipCode in POST/PUT/PATCH requests
@@ -176,7 +198,9 @@ public class Address {
    * @param ZipCode depends on locality referred to as zip-code in the US, post-code in the UK, etc
    */
   public void setZipCode(String ZipCode) {
-    this.ZipCode = ZipCode;
+    if(new SecurityMethods().editAddress()){
+      this.ZipCode = ZipCode;
+    } 
   }
 
   /** Used to get the City in GET requests
@@ -184,7 +208,11 @@ public class Address {
    * @return this.City
    */
   public String getCity() {
-    return City;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return City;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the City in POST/PUT/PATCH requests
@@ -192,7 +220,9 @@ public class Address {
    * @param City City/Town/Village/etc the Address is in
    */
   public void setCity(String City) {
-    this.City = City;
+    if(new SecurityMethods().editAddress()){
+      this.City = City;
+    } 
   }
 
   /** Used to get the priority in GET requests
@@ -200,7 +230,11 @@ public class Address {
    * @return Priority
    */
   public Long getPriority() {
-    return Priority;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Priority;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Priority in POST/PUT/PATCH requests
@@ -208,7 +242,9 @@ public class Address {
    * @param Priority used to order the list of Addresses for a Patient
    */
   public void setPriority(Long Priority) {
-    this.Priority = Priority;
+    if(new SecurityMethods().editAddress()){
+      this.Priority = Priority;
+    } 
   }
 
   /** Used to get the Description in GET requests
@@ -216,7 +252,11 @@ public class Address {
    * @return Description
    */
   public String getDescription() {
-    return Description;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Description;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Description in POST/PUT/PATCH requests
@@ -224,7 +264,9 @@ public class Address {
    * @param Description any extra information about the Address
    */
   public void setDescription(String Description) {
-    this.Description = Description;
+    if(new SecurityMethods().editAddress()){
+      this.Description = Description;
+    } 
   }
 
   /** Used to get the Region in POST/PUT/PATCH requests
@@ -232,7 +274,11 @@ public class Address {
    * @return Region
    */
   public String getRegion() {
-    return Region;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Region;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Region in POST/PUT/PATCH requests
@@ -240,7 +286,9 @@ public class Address {
    * @param Region depends on locality, in the UK a region could refer to a county
    */
   public void setRegion(String Region) {
-    this.Region = Region;
+    if(new SecurityMethods().editAddress()){
+      this.Region = Region;
+    } 
   }
 
   // Getters and Setters for joined fields
@@ -250,7 +298,11 @@ public class Address {
    * @return Patient
    */
   public Patient getPatient() { // Only have get object since set object is done using an Id
-    return Patient;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Patient;
+    } else{
+        return null;
+    }
   }
 
   /** Used to get the PatientId of the Patient linked to the Address
@@ -258,7 +310,11 @@ public class Address {
    * @return PatientId
    */
   public Long getPatientId() {
-    return PatientId;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return PatientId;
+    } else{
+        return null;
+    }
   }
 
   /** Used to link a Patient to an address by providing a PatientId
@@ -266,7 +322,9 @@ public class Address {
    * @param PatientId Integer identifying a Patient
    */
   public void setPatientId(Long PatientId) {
-    this.PatientId = PatientId;
+    if(new SecurityMethods().editAddress()){
+      this.PatientId = PatientId;
+    } 
   }
 
   /** Used to get the Type of the Address, can be shown inline with /Addresss(1)/TypeDetails
@@ -274,7 +332,11 @@ public class Address {
    * @return Type
    */
   public AddressType getType() {
-    return Type;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Type;
+    } else{
+        return null;
+    }
   }
 
   /** Used to get the TypeId of the Type of the Address
@@ -282,7 +344,11 @@ public class Address {
    * @return TypeId
    */
   public Long getTypeId() {
-    return TypeId;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return TypeId;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Type of the Address using a TypeId
@@ -290,7 +356,9 @@ public class Address {
    * @param TypeId Integer identifying an AddressType
    */
   public void setTypeId(Long TypeId) {
-    this.TypeId = TypeId;
+    if(new SecurityMethods().editAddress()){
+      this.TypeId = TypeId;
+    } 
   }
 
   /** Used to get the Country the Address is in, can be shown inline with /Addresss(1)/CountryDetails 
@@ -298,7 +366,11 @@ public class Address {
    * @return Country
    */
   public Country getCountry() {
-    return Country;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Country;
+    } else{
+        return null;
+    }
   }
 
   /** Used to get the CountryCode of the Country the Address is in
@@ -306,7 +378,11 @@ public class Address {
    * @return CountryCode
    */
   public String getCountryCode() {
-    return CountryCode;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return CountryCode;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Country the Address is in 
@@ -314,7 +390,9 @@ public class Address {
    * @param CountryCode 2-letter code identifying a Country e.g. UK
    */
   public void setCountryCode(String CountryCode) {
-    this.CountryCode = CountryCode;
+    if(new SecurityMethods().editAddress()){
+      this.CountryCode = CountryCode;
+    } 
   }
 
 }

@@ -14,12 +14,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import com.cmd.hms.patient.service.SecurityMethods;
 
 import java.util.Date;
 
@@ -44,16 +45,18 @@ public class Patient {
     @Column(name="patient_id")
     private Long PatientId;
 
+    
+
     /** corresponds to first_name column - is required in HTTP request body and must be less than 100 characters
     */
-    @Column(name="first_name", length = 100, nullable = false)
+    @Column(name="first_name", length = 100)
     @NotBlank(message="First name required")
     @Size(max=100)
     private String FirstName;
 
     /** corresponds to last_name column - is required in HTTP request body and must be less than 1000 characters
     */
-    @Column(name="last_name", length = 100, nullable = false)
+    @Column(name="last_name", length = 100)
     @NotBlank(message="Last name required")
     @Size(max = 100)
     private String LastName;
@@ -86,8 +89,8 @@ public class Patient {
 
     /** used to set patient_status by passing {PatientStatusId:1} as HTTP request body, the value passed must be a correct foreign key
     */
-    @Column(name="patient_status", nullable = false)
-    @NotNull(message = "Patient status is required")
+    @Column(name="patient_status")
+    //@NotNull(message = "Patient status is required")
     private Long PatientStatusId;
 
     /** corresponds to gender column - set using GenderId field
@@ -122,11 +125,19 @@ public class Patient {
      //Constructor
     public Patient(){}
     
+    
     /** Called during /Patients GET request
      * @return      PatientId of patient
     */
     public Long getPatientId() {
-        return PatientId;
+        if(PatientId == 2129){
+            System.out.println("Patient");
+        }
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return PatientId;
+        } else{
+            return 0L; // error if returning null
+        }
     }
 
     /** 
@@ -134,14 +145,23 @@ public class Patient {
     * @param PatientId      cannot be null
     */
     public void setPatientId(Long PatientId) {
-        this.PatientId = PatientId;
+        if(new SecurityMethods().editPatient(PatientStatusId)){
+            this.PatientId = PatientId;
+        } 
     }
 
     /** Called during /Patients GET request
      * @return      FirstName of patient
     */
     public String getFirstName() {
-        return FirstName;
+        if(PatientId == 2129){
+            System.out.println("Patient");
+        }
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return FirstName;
+        } else{
+            return null;
+        }
     }
 
     /** 
@@ -149,14 +169,20 @@ public class Patient {
     * @param FirstName      must be under 1000 characters and cannot be null or blank
     */
     public void setFirstName(String FirstName) {
-        this.FirstName = FirstName;
+        if(new SecurityMethods().editPatient(PatientStatusId)){
+            this.FirstName = FirstName;
+        } 
     }
 
     /** Called during /Patients GET request
     * @return      LastName of patient
     */
     public String getLastName() {
-        return LastName;
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return LastName;
+        } else{
+            return null;
+        }
     }
 
     /** 
@@ -164,14 +190,20 @@ public class Patient {
     * @param LastName       must be under 100 characters and cannot be null or blank
     */
     public void setLastName(String LastName) {
-        this.LastName = LastName;
+        if(new SecurityMethods().editPatient(PatientStatusId)){
+            this.LastName = LastName;
+        } 
     }
 
     /** Called during /Patients GET request
      * @return      MiddleName of patient
     */
     public String getMiddleName() {
-        return MiddleName;
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return MiddleName;
+        } else{
+            return null;
+        }
     }
 
     /** 
@@ -179,14 +211,20 @@ public class Patient {
     * @param MiddleName       must be under 100 characters
     */
     public void setMiddleName(String MiddleName) {
-        this.MiddleName = MiddleName;
+        if(new SecurityMethods().editPatient(PatientStatusId)){
+            this.MiddleName = MiddleName;
+        } 
     }
 
     /** Called during /Patients GET request
     * @return      DateOfBirth of patient
     */
     public Date getDateOfBirth() {
-        return DateOfBirth;
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return DateOfBirth;
+        } else{
+            return null;
+        }
     }
 
      /** 
@@ -194,8 +232,9 @@ public class Patient {
     * @param DateOfBirth       must be a datetime in the past and in the format 'yyyy-mm-ddThh:mm:ss' e.g. 1999-04-01T13:30:00
     */
     public void setDateOfBirth(Date DateOfBirth) {
-        System.out.print("setting dob");
-        this.DateOfBirth = DateOfBirth;
+        if(new SecurityMethods().editPatient(PatientStatusId)){
+            this.DateOfBirth = DateOfBirth;
+        } 
     }
 
     // Patient Status
@@ -204,14 +243,26 @@ public class Patient {
      * @return      PatientStatus of patient
     */
     public PatientStatusType getPatientStatus() {
-        return PatientStatus;
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return PatientStatus;
+        } else{
+            return null;
+        }
       }
     
     /** Called as part of setting PatientStatusId
      * @return      PatientStatusId of patient
     */
     public Long getPatientStatusId() {
-        return PatientStatusId;
+        if(PatientId == 2129){
+            System.out.println("Patient");
+        }
+        
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return PatientStatusId;
+        } else{
+            return null;
+        }
       }
     
     /** 
@@ -219,21 +270,31 @@ public class Patient {
     * @param PatientStatusId       cannot be null and must be a valid foreign key to patient_status
     */
     public void setPatientStatusId(Long PatientStatusId) {
-        this.PatientStatusId = PatientStatusId;
+        if(new SecurityMethods().editPatient(PatientStatusId)){
+            this.PatientStatusId = PatientStatusId;
+        } 
       }
 
     /** Called during /Patients GET request
      * @return      Gender of patient
     */
     public Gender getGender() {
-        return Gender;
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return Gender;
+        } else{
+            return null;
+        }
       }
 
     /** Called as part of setting GenderId
      * @return      GenderId of patient
     */
     public Long getGenderId() {
-     return GenderId;
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return GenderId;
+        } else{
+            return null;
+        }
     }
 
     /** 
@@ -241,7 +302,9 @@ public class Patient {
     * @param GenderId       must be a valid foreign key to gender
     */
     public void setGenderId(Long GenderId) {
-    this.GenderId = GenderId;
+        if(new SecurityMethods().editPatient(PatientStatusId)){
+            this.GenderId = GenderId;
+        } 
     }
 
     /** Called during /Patients GET request.
@@ -249,14 +312,22 @@ public class Patient {
      * @return      Title of patient
     */
     public Title getTitle() {
-        return Title;
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return Title;
+        } else{
+            return null;
+        }
       }
     
     /** Called as part of setting TitleId
      * @return      TitleId of patient
     */
     public Long getTitleId() {
-        return TitleId;
+        if(new SecurityMethods().viewPatient(PatientId, PatientStatusId)){
+            return TitleId;
+        } else{
+            return null;
+        }
       }
     
     /** 
@@ -264,8 +335,9 @@ public class Patient {
     * @param TitleId       must be a valid foreign key to title
     */
     public void setTitleId(Long TitleId) {
-    this.TitleId = TitleId;
-
+        if(new SecurityMethods().editPatient(PatientStatusId)){
+            this.TitleId = TitleId;
+        } 
     }
     
 }

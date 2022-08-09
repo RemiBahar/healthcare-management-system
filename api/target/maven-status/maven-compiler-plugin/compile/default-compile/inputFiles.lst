@@ -1,8 +1,9 @@
-/home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/model/Graphics.java
+/home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/config/WebSecurityConfig.java
 /home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/model/Patient.java
 /home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/model/ContactType.java
 /home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/model/Country.java
 /home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/model/Gender.java
+/home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/service/SecurityMethods.java
 /home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/model/Contact.java
 /home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/service/CustomODataServiceFactory.java
 /home/remi/Documents/QMUL/Dissertation/Code/patient/api/src/main/java/com/cmd/hms/patient/model/Title.java

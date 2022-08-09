@@ -4,7 +4,6 @@ com/cmd/hms/patient/model/Gender.class
 com/cmd/hms/patient/model/PatientStatusType.class
 com/cmd/hms/patient/service/OdataJpaServiceFactory.class
 com/cmd/hms/patient/model/Address.class
-com/cmd/hms/patient/model/Graphics.class
 com/cmd/hms/patient/model/Patient.class
 com/cmd/hms/patient/service/CustomODataServiceFactory.class
 com/cmd/hms/patient/service/CustomODataJpaProcessor.class

@@ -16,6 +16,8 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import com.cmd.hms.patient.service.SecurityMethods;
+
  /**Used to represent a Contact, stored in the address table and accessible via /Contacts. Linked to a Patient on a many-to-one basis.
 */
 @Entity
@@ -103,7 +105,11 @@ public class Contact {
    * @return Id
    */
   public Long getId() {
-    return Id;
+    if(new SecurityMethods().viewContact(Patient)){
+      return Id;
+    } else{
+        return 0L;
+    }
   }
 
   /** Used to set the Id of a Contact in a POST/PUT/PATCH request
@@ -111,7 +117,9 @@ public class Contact {
    * @param Id - set automatically, not by the user
    */
   public void setId(Long Id) {
-    this.Id = Id;
+    if(new SecurityMethods().editAddress()){
+      this.Id = Id;
+    } 
   }
 
   /** Used to get the Name of a Contact in a GET request
@@ -119,7 +127,11 @@ public class Contact {
    * @return Name
    */
   public String getName() {
-    return Name;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Name;
+    } else{
+        return null;
+    }
   }
 
     /** Used to set the Name of a Contact in a POST/PUT/PATCH request
@@ -127,7 +139,9 @@ public class Contact {
    * @param Name - full name of the Contact or NULL if Contact refers to Patient's personal contact details
    */
   public void setName(String Name) {
-    this.Name = Name;
+    if(new SecurityMethods().editAddress()){
+      this.Name = Name;
+    } 
   }
 
   /** Used to get the Telephone of a Contact in a GET request
@@ -135,11 +149,17 @@ public class Contact {
    * @return Telephone
    */
   public String getTelephone() {
-    return Telephone;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Telephone;
+    } else{
+        return null;
+    }
   }
 
   public void setTelephone(String Telephone) {
-    this.Telephone = Telephone.replaceAll("\\s+","");
+    if(new SecurityMethods().editAddress()){
+      this.Telephone = Telephone;
+    } 
   }
 
   /** Used to get the Mobile of a Contact in a GET request
@@ -147,7 +167,11 @@ public class Contact {
    * @return Mobile
    */
   public String getMobile() {
-    return Mobile;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Mobile;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Mobile of a Contact in a POST/PUT/PATCH request
@@ -155,7 +179,9 @@ public class Contact {
    * @param Mobile - must be 5-10 digits preceded optionally by a + and 2-digit country code
    */
   public void setMobile(String Mobile) {
-    this.Mobile = Mobile.replaceAll("\\s+","");
+    if(new SecurityMethods().editAddress()){
+      this.Mobile = Mobile;
+    } 
   }
 
   /** Used to get the Email of a Contact in a GET request
@@ -163,7 +189,11 @@ public class Contact {
    * @return Email
    */
   public String getEmail() {
-    return Email;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Email;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Email of a Contact in a POST/PUT/PATCH request
@@ -171,7 +201,9 @@ public class Contact {
    * @param Email - must be a valid email
    */
   public void setEmail(String Email) {
-    this.Email = Email;
+    if(new SecurityMethods().editAddress()){
+      this.Email = Email;
+    } 
   }
 
   /** Used to get the Patient the Contact corresponds to in a GET request
@@ -179,7 +211,11 @@ public class Contact {
    * @return Patient - more information can be shown using /Contacts(1)/PatientDetails
    */
   public Patient getPatient() {
-    return Patient;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Patient;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Patient of a Contact
@@ -187,7 +223,9 @@ public class Contact {
    * @param Patient - use setPatientId instead
    */
   public void setPatient(Patient Patient) {
-    this.Patient = Patient;
+    if(new SecurityMethods().editAddress()){
+      this.Patient = Patient;
+    } 
   }
 
   /** Used to get the PatientId of the Patient the Contact corresponds to
@@ -195,7 +233,11 @@ public class Contact {
    * @return Id
    */
   public Long getPatientId() {
-    return PatientId;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return PatientId;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the PatientId of the Patient a Contact corresponds to in a POST/PUT/PATCH request
@@ -203,7 +245,9 @@ public class Contact {
    * @param PatientId - foreign key to Patient
    */
   public void setPatientId(Long PatientId) {
-    this.PatientId = PatientId;
+    if(new SecurityMethods().editAddress()){
+      this.PatientId = PatientId;
+    } 
   }
 
   /** Used to get the Priority of a Contact in a GET request
@@ -211,7 +255,11 @@ public class Contact {
    * @return Priority
    */
   public Long getPriority() {
-    return Priority;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Priority;
+    } else{
+        return null;
+    }
   }
 
   /** Used to set the Priority of a Contact in a POST/PUT/PATCH request
@@ -219,7 +267,9 @@ public class Contact {
    * @param Priority - must be a positive integer
    */
   public void setPriority(Long Priority) {
-    this.Priority = Priority;
+    if(new SecurityMethods().editAddress()){
+      this.Priority = Priority;
+    } 
   }
   
  // Join getters and setters
@@ -229,7 +279,11 @@ public class Contact {
    * @return Id
    */
  public ContactType getType() {
-    return Type;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return Type;
+    } else{
+        return null;
+    }
   }
 
   /** Used to get the TypeId of the ContactType of a Contact in a GET request
@@ -237,7 +291,11 @@ public class Contact {
    * @return Id
    */
   public Long getTypeId() {
-    return TypeId;
+    if(new SecurityMethods().viewAddress(Patient)){
+      return TypeId;
+    } else{
+        return null;
+    }
   }
 
     /** Used to set the TypeId of the ContactType of the Contact in a POST/PUT/PATCH request
@@ -245,6 +303,8 @@ public class Contact {
    * @param TypeId - foreign key to ContactType
    */
   public void setTypeId(Long TypeId) {
-    this.TypeId = TypeId;
+    if(new SecurityMethods().editAddress()){
+      this.TypeId = TypeId;
+    } 
   }
 }
