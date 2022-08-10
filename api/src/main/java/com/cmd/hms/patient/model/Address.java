@@ -15,6 +15,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+
 import com.cmd.hms.patient.service.SecurityMethods;
 
 
@@ -22,6 +25,7 @@ import com.cmd.hms.patient.service.SecurityMethods;
 */
 @Entity
 @Table(name="address")
+@Audited
 public class Address {
    /**corresponds to auto-incremented, primary key address_id column
   */
@@ -94,6 +98,7 @@ public class Address {
    */
   @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
   @JoinColumn(name="type",insertable = false, updatable = false)
+  @NotAudited
   private AddressType Type;
 
   /** Used for setting the Address Type by passing {TypeId:1} in the HTTP request body, the value passed must be a correct foreign key to address_type
@@ -105,6 +110,7 @@ public class Address {
    */
   @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
   @JoinColumn(name="country", insertable = false, updatable = false)
+  @NotAudited
   private Country Country;
 
   /** Used for setting Country by passing {CountryCode:"UK"} in the HTTP request body, value passed must be a correct foreign key to country

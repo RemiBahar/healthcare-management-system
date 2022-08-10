@@ -109,5 +109,53 @@ public class SecurityMethods {
             || hasRole("ROLE_ASSISTANCE");
     }
 
+    /* Patient Audit log */
+    public Boolean viewPatientAud(Long AudPatientId){
+        Boolean returnValue = false;
+
+        try {
+            returnValue = hasRole("ROLE_ADMIN") 
+                || hasRole("ROLE_ASSISTANCE")
+                || (hasRole("ROLE_USER") && PatientId == AudPatientId);
+        } catch(Exception e){ // If Address not linked to a Patient
+            returnValue = hasRole("ROLE_ADMIN") 
+                || hasRole("ROLE_ASSISTANCE");
+        }
+
+        return returnValue;
+    }
+
+    /* Address Audit log */
+    public Boolean viewAddressAud(Long AudPatientId){
+        Boolean returnValue = false;
+
+        try {
+            returnValue = hasRole("ROLE_ADMIN") 
+                || hasRole("ROLE_ASSISTANCE")
+                || (hasRole("ROLE_USER") && PatientId == AudPatientId);
+        } catch(Exception e){ // If Address not linked to a Patient
+            returnValue = hasRole("ROLE_ADMIN") 
+                || hasRole("ROLE_ASSISTANCE");
+        }
+
+        return returnValue;
+    }
+
+    /* Contact Audit log */
+    public Boolean viewContactAud(Long AudPatientId){
+        Boolean returnValue = false;
+
+        try {
+            returnValue = hasRole("ROLE_ADMIN") 
+                || hasRole("ROLE_ASSISTANCE")
+                || (hasRole("ROLE_USER") && PatientId == AudPatientId);
+        } catch(Exception e){ // If Address not linked to a Patient
+            returnValue = hasRole("ROLE_ADMIN") 
+                || hasRole("ROLE_ASSISTANCE");
+        }
+
+        return returnValue;
+    }
+
     
 }

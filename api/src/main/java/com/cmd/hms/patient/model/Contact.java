@@ -16,11 +16,15 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
+
 import com.cmd.hms.patient.service.SecurityMethods;
 
  /**Used to represent a Contact, stored in the address table and accessible via /Contacts. Linked to a Patient on a many-to-one basis.
 */
 @Entity
+@Audited
 public class Contact {
   /** Corresponds to auto-incremented, contact_id primary key
    */
@@ -78,6 +82,7 @@ public class Contact {
    */
   @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
   @JoinColumn(name="type",insertable = false, updatable = false)
+  @NotAudited
   private ContactType Type;
 
   /** Used for linking a Contact to a ContactType via the TypeId foreign-key

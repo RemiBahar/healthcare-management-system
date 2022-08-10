@@ -19,6 +19,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import com.cmd.hms.patient.service.SecurityMethods;
 
@@ -36,6 +38,7 @@ import java.util.Date;
 @Table(name="patient")
 @SQLDelete(sql = "UPDATE patient SET patient_status = 3 WHERE patient_id=?")
 @Where(clause = "patient_status != 3 OR patient_status = null")
+@Audited
 public class Patient {
     // Fields
     /** corresponds to auto-incremented patient_id primary key column
@@ -85,6 +88,7 @@ public class Patient {
     */
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.EAGER)
     @JoinColumn(name="patient_status",insertable = false, updatable = false)
+    @NotAudited
     private PatientStatusType PatientStatus;
 
     /** used to set patient_status by passing {PatientStatusId:1} as HTTP request body, the value passed must be a correct foreign key
@@ -97,6 +101,7 @@ public class Patient {
     */
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
     @JoinColumn(name="gender",insertable = false, updatable = false)
+    @NotAudited
     private Gender Gender;
 
     /** used to set gender by passing {GenderId:1} as HTTP request body, the value passed must be a correct foreign-key
@@ -108,6 +113,7 @@ public class Patient {
     */
     @ManyToOne(cascade = {CascadeType.MERGE}, fetch=FetchType.LAZY)
     @JoinColumn(name="title",insertable = false, updatable = false)
+    @NotAudited
     private Title Title;
 
     /** used to set title by passing {TitleId:1} as HTTP request body, the value passed must be a correct foreign-key
