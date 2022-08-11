@@ -1,0 +1,419 @@
+package com.cmd.hms.patient.test;
+
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.test.context.TestPropertySource;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Iterator;
+import java.util.List;
+
+@SpringBootTest(
+  webEnvironment = WebEnvironment.DEFINED_PORT,
+  properties = {
+    "server.port=8080"
+  })
+@TestPropertySource(locations="classpath:application-test.properties") // Uses postgres database in memory deleted after testing
+public class HttpRequestTest{
+	String BaseUrl;
+
+	@Autowired
+    RestTemplate restTemplate;
+
+	HttpRequestTest(){
+		this.BaseUrl = "http://localhost:8080/api/patient";
+		//this.BaseUrl = "http://localhost:8079/odata";
+		this.restTemplate = new RestTemplate();
+		HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
+        this.restTemplate.setRequestFactory(requestFactory);
+	}
+
+	@Test
+	public String getAdminJWT() {
+
+		String url = "http://localhost:8090/odata/Patients";
+		String token = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyIiwiUGF0aWVudElkIjoyLCJBdXRob3JpdGllcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9VU0VSIn1dLCJleHAiOjE2NjAxOTQzNzksImlhdCI6MTY2MDE3NjM3OX0.xqKW_Ok9675XSOkOXn9gzj4P6CDlvHxutoFC71xNuj9IVOIQZwV9HO6N74LptEn68_CNEHZrbKTYEMryW4excg";
+		
+		List<MediaType> list=new ArrayList<MediaType>();
+		list.add(MediaType.APPLICATION_JSON);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.add("Authorization", token);
+		headers.setAccept(list);
+		HttpEntity<String> request = new HttpEntity<String>(headers); 
+
+		String getResponse = this.restTemplate.getForObject(url,String.class);
+		System.out.println(getResponse);
+		System.out.println(getResponse);
+		System.out.println(getResponse);
+		System.out.println(getResponse);
+		System.out.println(getResponse);
+		assertTrue(true);
+		/* 
+		
+		//String requestBody = "{\n  \"username\": \"admin\", \"password\": \"pass\" \n}";
+		String requestBody = "{\n \"username\": \"admin\", \"password\": \"pass\" \n}";
+		String url = "http://localhost:8080/authenticate";
+		
+		// Add object
+		List<MediaType> list=new ArrayList<MediaType>();
+		list.add(MediaType.APPLICATION_JSON);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(list);
+		HttpEntity<String> request = new HttpEntity<String>(requestBody, headers); 
+		
+		String postResponse = this.restTemplate.postForObject(url, request, String.class);
+		String token = StringUtils.substringBetween(postResponse, "\"token\":\"", "\"");
+
+		String[] chunks = token.split("\\.");
+
+        String payload = new String(Base64.getUrlDecoder().decode(chunks[1]));
+
+		
+
+		String authorities = StringUtils.substringBetween(payload, "Authorities\":[", "]");
+
+		if(!authorities.contains("ROLE_ADMIN")){
+			System.out.println(payload);
+			System.out.println(payload);
+			System.out.println(payload);
+			System.out.println(payload);
+			System.exit(1);
+		}
+
+		System.out.println()
+		
+	
+		return token;*/
+		return null;
+	}
+	public String postObject(String data, String url, String token) throws Exception{
+		List<MediaType> list=new ArrayList<MediaType>();
+		list.add(MediaType.APPLICATION_JSON);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(list);
+		headers.add("Authorization", "Bearer " + token);
+
+		HttpEntity<String> request = new HttpEntity<String>(data, headers);
+		String postResponse = this.restTemplate.postForObject(url, request, String.class);
+		try {
+			JSONObject postJson = new JSONObject(postResponse).getJSONObject("d").getJSONObject("__metadata");
+			return postJson.get("id").toString();
+		} catch(Exception e){
+			System.out.println("postObject");
+			System.out.println("postObject");
+			System.out.println("postObject");
+			System.out.println(e.getLocalizedMessage());
+			System.out.println(e.getStackTrace());
+			System.exit(0);
+			return null;
+		}
+		
+
+		
+	}
+
+	public void invalidAddObject(String requestBody, String endpoint, String token) throws Exception{
+		String url = BaseUrl + endpoint;
+		
+		// Add object
+		List<MediaType> list=new ArrayList<MediaType>();
+		list.add(MediaType.APPLICATION_JSON);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(list);
+		headers.add("Authorization", "Bearer " + token);
+		HttpEntity<String> request = new HttpEntity<String>(requestBody, headers); 
+		String postResponse = this.restTemplate.postForObject(url, request, String.class);
+		try {
+			JSONObject postJson = new JSONObject(postResponse);
+			// Object should not be added due to invalid requestBody
+			assertTrue(postJson.has("error"));
+		} catch(Exception e){
+			System.out.println("invalidAddObject");
+			System.out.println("invalidAddObject");
+			System.out.println("invalidAddObject");
+			System.out.println(e.getLocalizedMessage());
+			System.out.println(e.getStackTrace());
+			System.exit(0);
+		}
+		
+		
+	}
+
+	public void addObject(String requestBody, String endpoint, String token) throws Exception{
+		String url = BaseUrl + endpoint;
+		
+		// Add object
+		List<MediaType> list=new ArrayList<MediaType>();
+		list.add(MediaType.APPLICATION_JSON);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(list);
+		headers.add("Authorization", "Bearer " + token);
+		HttpEntity<String> request = new HttpEntity<String>(requestBody, headers); 
+		String postResponse = this.restTemplate.postForObject(url, request, String.class);
+
+		
+		try {
+			JSONObject postJson = new JSONObject(postResponse).getJSONObject("d").getJSONObject("__metadata");
+
+			String getUrl = postJson.get("id").toString();
+
+			//Get response
+			String getResponse = this.restTemplate.getForObject(getUrl,String.class);
+			JSONObject getJson = new JSONObject(getResponse).getJSONObject("d");
+
+
+			// Compare created object with request
+			JSONObject dataJson = new JSONObject(requestBody);
+			Iterator<String> keys = dataJson.keys();
+
+			while(keys.hasNext()) {
+				String key = keys.next();
+				if (dataJson.get(key) instanceof JSONObject) {
+					assertEquals(dataJson.get(key), getJson.get(key));
+				}
+			}
+		} catch(Exception e){
+			System.out.println("addObject");
+			System.out.println("addObject");
+			System.out.println("addObject");
+			System.out.println(e.getLocalizedMessage());
+			System.out.println(e.getStackTrace());
+			System.exit(0);
+		} 
+
+		
+		
+		
+	}
+	
+	
+
+	public void invalidUpdateObject(String requestBody, String endpoint, String token) throws Exception {
+		String url = BaseUrl + endpoint;
+
+		// Get initial address
+        String beforeResponse = restTemplate.getForObject(url,String.class);
+		JSONObject beforeJson = new JSONObject(beforeResponse).getJSONObject("d");
+
+		// Try invalid update
+        List<MediaType> list=new ArrayList<MediaType>();
+		list.add(MediaType.APPLICATION_JSON);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(list);
+		headers.add("Authorization", "Bearer " + token);
+        HttpEntity<String> request = new HttpEntity<String>(requestBody, headers);
+        restTemplate.patchForObject(url, request, String.class);
+
+		// Get entity
+		String afterResponse = restTemplate.getForObject(url,String.class);
+		try {
+			JSONObject afterJson = new JSONObject(afterResponse).getJSONObject("d");
+
+			// Compare object before and after invalid object
+			// Object should be unchanged
+			JSONObject dataJson = new JSONObject(requestBody);
+			Iterator<String> keys = dataJson.keys();
+
+			while(keys.hasNext()) {
+				String key = keys.next();
+				if (beforeJson.get(key) instanceof JSONObject) {
+					assertEquals(beforeJson.get(key), afterJson.get(key));
+				}
+			}
+
+		} catch(Exception e){
+			System.out.println("invalidUpdateObject");
+			System.out.println("invalidUpdateObject");
+			System.out.println("invalidUpdateObject");
+			System.out.println(e.getLocalizedMessage());
+			System.out.println(e.getStackTrace());
+			System.exit(0);
+		}
+		
+	}
+
+	public void updateObject(String requestBody, String endpoint, String token) throws Exception {
+		try {
+			
+			// Set headers
+			List<MediaType> list=new ArrayList<MediaType>();
+			list.add(MediaType.APPLICATION_JSON);
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			headers.setAccept(list);
+			headers.add("Authorization", "Bearer " + token);
+			
+			// Initialize
+			String url = BaseUrl + endpoint;
+			String getUrl = null;
+			if(endpoint.contains("ContactTypes(1)")){
+				getUrl = BaseUrl + "/Patients";
+			} else {
+				getUrl = url;
+			}
+			JSONObject requestJson = new JSONObject(requestBody);
+			HttpEntity<Object> getRequest = new HttpEntity<Object>(headers);
+
+			//Get initial object
+			String beforeResponse = restTemplate.exchange(getUrl, HttpMethod.GET, getRequest, String.class).toString();
+			
+			System.out.println(beforeResponse);
+			System.out.println(beforeResponse);
+			System.out.println("test " + beforeResponse);
+			JSONObject beforeJson = new JSONObject(beforeResponse).getJSONObject("d");
+			
+			// Add object
+			
+			HttpEntity<String> request = new HttpEntity<String>(requestBody, headers);
+			restTemplate.patchForObject(url, request, String.class);
+			
+			//Get updated object
+			String getResponse = restTemplate.getForObject(url,String.class);
+			JSONObject afterJson = new JSONObject(getResponse).getJSONObject("d");
+			
+			// Loop through update object json
+			Iterator<String> keys = afterJson.keys();
+
+			
+			while(keys.hasNext()) {
+				String key = keys.next();
+
+				if(!key.endsWith("Details") && !key.startsWith("__")){ // Ignore metadata or joined object
+					// Fields in update should be changed
+					if(requestJson.has(key)){
+					
+							if(afterJson.get(key).toString().startsWith("/")){ // Comparing dates
+								Long initialDate = Instant.parse(requestJson.get(key) + ".000Z").toEpochMilli(); // Convert request date to unix timestamp
+								String s = afterJson.get(key).toString();
+								Long updatedDate = Long.parseLong(s.substring(s.indexOf("(") + 1, s.indexOf(")"))); // Get unix timestamp of get date
+								assertTrue((initialDate - updatedDate) == 0);
+							} 
+							else {
+								assertEquals(requestJson.get(key), afterJson.get(key));
+							}	
+						
+					} 
+					// Fields not in update should remain unchanged
+					else {
+						assertEquals(beforeJson.get(key), afterJson.get(key));
+
+					}
+				}	
+			}
+		} catch(Exception e){
+			System.out.println("updateObject");
+			System.out.println("updateObject");
+			System.out.println("updateObject");
+	
+			//InetAddress address = InetAddress.getByName("http://localhost:8079/odata/$metadata");
+            //boolean reachable = address.isReachable(10000);
+
+            //System.out.println("Is host reachable? " + reachable);
+			System.out.println(e.getLocalizedMessage());
+			System.out.println(e.getStackTrace());
+			System.exit(0);
+		}
+
+	}
+
+
+
+
+	public void deleteObject(String endpoint, String token) throws JSONException{
+		// Delete object
+		String url = BaseUrl + endpoint;
+		List<MediaType> list=new ArrayList<MediaType>();
+		list.add(MediaType.APPLICATION_JSON);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(list);
+		headers.add("Authorization", "Bearer " + token);
+		restTemplate.delete(url, String.class);
+
+		//Check if object deleted
+	
+			String getResponse = restTemplate.getForObject(url,String.class);
+			JSONObject getJson = new JSONObject(getResponse);
+
+			assertTrue(getJson.has("error"));
+		
+	}
+
+	public void deleteObject(String requestBody, String endpoint, String token) throws JSONException{
+		// Delete object
+		String url = BaseUrl + endpoint;
+		List<MediaType> list=new ArrayList<MediaType>();
+		list.add(MediaType.APPLICATION_JSON);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.setAccept(list);
+		headers.add("Authorization", "Bearer " + token);
+		restTemplate.delete(url, String.class);
+
+		//Check if object deleted
+		HttpEntity<String> request = new HttpEntity<String>(requestBody, headers);
+        String updateResponse = restTemplate.patchForObject(url, request, String.class);
+
+		try {
+			JSONObject updateJson = new JSONObject(updateResponse);
+
+			String getResponse = restTemplate.getForObject(url,String.class);
+			JSONObject getJson = new JSONObject(getResponse);
+
+			assertTrue(getJson.has("error"));
+			assertTrue(updateJson.has("error"));
+		} catch(Exception e) {
+			System.out.println("deleteObject2");
+			System.out.println("deleteObject2");
+			System.out.println("deleteObject2");
+			System.out.println(e.getLocalizedMessage());
+			System.out.println(e.getStackTrace());
+			System.exit(0);
+		}
+	}
+    
+
+   public String postPatientStatusType(String Status, String token) throws Exception {
+	String data = String.format("{\n  \"Status\": \"%s\" \n}", Status);
+	String url = BaseUrl + "/PatientStatusTypes";
+	String getUrl = postObject(data, url, token);
+
+	return getUrl;
+
+   }
+
+    
+
+
+	
+
+
+	
+}

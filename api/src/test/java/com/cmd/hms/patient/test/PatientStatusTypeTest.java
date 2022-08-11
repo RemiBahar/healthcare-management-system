@@ -1,13 +1,16 @@
 package com.cmd.hms.patient.test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
+import org.springframework.test.context.TestPropertySource;
+
 import com.cmd.hms.patient.model.PatientStatusType;
 
-public class PatientStatusTypeTest extends HttpRequestTest{
+public class PatientStatusTypeTest extends IntegrationTest{
 
      // Instanstiate object
-     PatientStatusType PatientStatusType = new PatientStatusType();
+     PatientStatusType PatientStatusType = new PatientStatusType(); 
 
      // Tests
      @Test
@@ -38,29 +41,45 @@ public class PatientStatusTypeTest extends HttpRequestTest{
     @Test
 	public void addStatus() throws Exception {
 		String requestBody = "{\n  \"Status\": \"Add Status\" \n}";
-		String endpoint = "/PatientStatusTypes";
-		addObject(requestBody, endpoint);
+		String endPoint = "/PatientStatusTypes";
+		add(endPoint, requestBody, adminToken);
 	}
 
     @Test
 	public void updateStatus() throws Exception {
 		String requestBody = "{\n  \"Status\": \"Updated status\" \n}";
-		String endpoint = "/PatientStatusTypes(1)";
-		updateObject(requestBody, endpoint);
+		String endPoint = "/PatientStatusTypes(1)";
+		update(endPoint, requestBody, adminToken);
 	}
 
     @Test
 	public void invalidUpdateStatus() throws Exception {
 		String requestBody = "{\n \"StatusId\": \"10\", \"Status\": \"Invalid update status\" \n}";
-		String endpoint = "/PatientStatusTypes(1)";
-		invalidUpdateObject(requestBody, endpoint);
+		String endPoint = "/PatientStatusTypes(1)";
+
+		assertTrue(invalidUpdateObject(requestBody, endPoint, adminToken));
 	}
 
     @Test
 	public void deleteStatus() throws Exception {
-        String requestBody = "{\n  \"Status\": \"Updated status\" \n}";
-		String endpoint = "/PatientStatusTypes  (1)";
-		deleteObject(requestBody, endpoint);
+        String endPoint = "/PatientStatusTypes(2)";
+        String url = this.baseUrl + endPoint;
+
+        assertFalse(delete(url, this.adminToken));
 	}
+
+    @Test
+    // Assistance should not be able to READ PatientStatusType
+    public void assistanceGetAddressType() throws Exception {
+        Boolean request = invalidGet("/PatientStatusTypes", this.assistanceToken);
+        assertTrue(request);
+    }
+
+    @Test
+    // User should not be able to READ PatientStatusType
+    public void userGetAddressType() throws Exception {
+        Boolean request = invalidGet("/PatientStatusTypes", this.userToken);
+        assertTrue(request);
+    }
       
 }

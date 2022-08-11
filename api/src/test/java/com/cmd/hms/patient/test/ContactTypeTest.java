@@ -1,11 +1,12 @@
 package com.cmd.hms.patient.test;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import com.cmd.hms.patient.model.ContactType;
 
-public class ContactTypeTest extends HttpRequestTest{
+public class ContactTypeTest extends IntegrationTest{
 
      // Instanstiate object
      ContactType contactType = new ContactType();
@@ -30,22 +31,37 @@ public class ContactTypeTest extends HttpRequestTest{
     @Test
 	public void addContactType() throws Exception {
 		String requestBody = "{\n  \"Title\": \"Something\" \n}";
-        String endpoint = "/ContactTypes";
-        addObject(requestBody, endpoint);
+        String endPoint = "/ContactTypes";
+        add(endPoint, requestBody, this.adminToken);
     }
 
     @Test
 	public void updateContactType() throws Exception {
 		String requestBody = "{\n  \"Title\": \"Different\" \n}";
-        String endpoint = "/ContactTypes(1)";
+        String endPoint = "/ContactTypes(1)";
 
-        updateObject(requestBody, endpoint);
+        update(endPoint, requestBody, this.adminToken);
 	}
 
     @Test
-	public void deleteAddress() throws Exception {
-        deleteObject("/ContactTypes(2)");
+	public void deleteCotactType() throws Exception {
+        String endPoint = "/ContactTypes(2)";
+        String url = this.baseUrl + endPoint;
+         
+        assertFalse(delete(url, this.adminToken));
     }
    
-    
+    @Test
+     // Assistance should not be able to READ ContactType
+     public void assistanceGetContactType() throws Exception {
+         Boolean request = invalidGet("/ContactTypes", this.assistanceToken);
+         assertTrue(request);
+     }
+ 
+    @Test
+    // User should not be able to READ ContactType
+    public void userGetContactType() throws Exception {
+        Boolean request = invalidGet("/ContactTypes", this.userToken);
+        assertTrue(request);
+    }
 }
