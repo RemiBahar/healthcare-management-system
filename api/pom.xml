@@ -234,6 +234,11 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-envers</artifactId>
+            <version>5.4.33.Final</version>
+        </dependency>
+        <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-server</artifactId>
             <!-- Breaks server. 2.30.1 stable-->
@@ -286,6 +291,14 @@
         </dependency>
 
         <!-- For validation -->
+
+        <!-- Allows automatic getters and setters via @Getter and @Setter -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.20</version>
+            <scope>provided</scope>
+        </dependency>
         
         <!-- For Load testing -->
         <dependency>
