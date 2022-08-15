@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 public class PatientTest extends IntegrationTest{
     @Test
 	public void addPatient() throws Exception {
-		String requestBody = "{\n  \"FirstName\": \"Charles\", \"MiddleName\": \"Francis\" \n, \"LastName\": \"Xaiver\", \"PatientStatusId\": \"2\", \"GenderId\": \"1\", \"TitleId\": \"1\", \"DateOfBirth\": \"1999-04-01T04:00:00\"}";
+		String requestBody = "{\n  \"FirstName\": \"Charles\", \"MiddleName\": \"Francis\" \n, \"LastName\": \"Xaiver\", \"PatientStatusId\": \"1\", \"GenderId\": \"1\", \"TitleId\": \"1\", \"DateOfBirth\": \"1999-04-01T04:00:00\"}";
 		String endPoint =  "/Patients";
 
 		assertTrue(add(endPoint, requestBody, this.adminToken));
@@ -62,6 +62,7 @@ public class PatientTest extends IntegrationTest{
 		
 		assertTrue(update(endpoint, requestBody, this.adminToken));
 	}
+
 
     @Test
 	public void deletePatient() throws Exception {

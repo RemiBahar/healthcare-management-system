@@ -216,6 +216,8 @@ public class IntegrationTest {
 				if (dataJson.get(key) instanceof JSONObject) {
 					assertEquals(dataJson.get(key), afterJson.get(key));
                     if(dataJson.get(key) != afterJson.get(key)){
+                        System.out.println("requestBodyAdd: " + requestBody);
+                        System.out.println("postUrlAdd: " + postUrl);
                         return false;
                     }
 				}
@@ -224,6 +226,8 @@ public class IntegrationTest {
             return true; // will reach this if tests passed
         } catch(Exception e){
             System.out.print(e.getLocalizedMessage());
+            System.out.println("requestBodyAdd: " + requestBody);
+            System.out.println("postUrlAdd: " + this.baseUrl + endPoint);
             return false;
         }
 
@@ -231,18 +235,6 @@ public class IntegrationTest {
     }
 
     
-   
-    @Test
-    @Order(Ordered.LOWEST_PRECEDENCE)
-    public void getPatients(){
-        System.out.println("Get patients");
-        // Send get request
-        String url = "http://localhost:8080/api/patient/Patients"; // Patients(1)
-        String getResponse = getRequest(url, this.adminToken);
-        
-        assertTrue(getResponse.contains("Alan")); // ALan
-    }
-
 
     public Boolean update(String endPoint, String requestBody, String token){
         try {
@@ -428,6 +420,36 @@ public class IntegrationTest {
                 return false;
         } catch(Exception e){
             return true;
+        }
+    }
+
+    public Boolean get(String endPoint, String token){
+        try {
+                String url = this.baseUrl + endPoint;
+
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_JSON);
+                List<MediaType> list = new ArrayList<MediaType>();
+                list.add(MediaType.APPLICATION_JSON);
+                headers.set("accept", "application/json");
+                headers.add("Authorization", "Bearer " + token);
+            
+                HttpEntity<String> request = new HttpEntity<String>(headers);
+                
+                String getResponse = this.restTemplate.exchange(url, HttpMethod.GET, request, String.class).toString();
+                System.out.println("getInvalidResponse: " + getResponse);
+                String[] chunks = token.split("\\.");
+                String payload = new String(Base64.getUrlDecoder().decode(chunks[1]));
+                
+                String authorities = StringUtils.substringBetween(payload, "Authorities\":[", "]");
+                System.out.println("authorities: " + authorities);
+
+                System.out.println(getResponse);
+
+                return true;
+        } catch(Exception e){
+            System.out.println(e.getLocalizedMessage());
+            return false;
         }
     }
 
